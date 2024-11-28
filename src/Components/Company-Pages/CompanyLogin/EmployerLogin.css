@@ -1,0 +1,14 @@
+.EmployerLogin-div{
+    height: 100vh;
+    margin-top: 80px !important;
+    margin-bottom: 150px;
+}
+.Loginform-company{
+    padding: 10px !important;
+    gap: 0px;
+}
+.company-login-card{
+    height: auto;
+    width: 500px;
+    
+}

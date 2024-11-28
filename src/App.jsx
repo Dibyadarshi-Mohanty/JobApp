@@ -11,6 +11,8 @@ import Navbar from './Components/Navbar'
 import { BrowserRouter,Routes,Route } from 'react-router-dom'
 import CandidateJobApply from './Components/Candidate-Pages/Job-Apply/CandidateJobApply'
 import CandidateLogin from './Components/Candidate-Pages/CandidateLogin/CandidateLogin'
+import CompanyLogin from './Components/Company-Pages/CompanyLogin/CompanyLogin'
+
 
 function App() {
   
@@ -27,6 +29,7 @@ function App() {
         <Route path="/job-listing" element={<JobPosting/>}/>
         <Route path="/jobs" element={<CandidateJobApply/>}/>
         <Route path="/CandidateLogin" element={<CandidateLogin/>}/>
+        <Route path="/CompanyLogin" element={<CompanyLogin/>}/>
         
       </Routes>
       <Footer/>
