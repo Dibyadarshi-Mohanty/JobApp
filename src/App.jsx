@@ -12,6 +12,11 @@ import { BrowserRouter,Routes,Route } from 'react-router-dom'
 import CandidateJobApply from './Components/Candidate-Pages/Job-Apply/CandidateJobApply'
 import CandidateLogin from './Components/Candidate-Pages/CandidateLogin/CandidateLogin'
 import CompanyLogin from './Components/Company-Pages/CompanyLogin/CompanyLogin'
+import CompanyDashboard from './Components/Company-Pages/CompanyDashboard/CompanyDashboard'
+import Loader1 from './Components/Loaders/Loader1'
+import Loader2 from './Components/Loaders/Loader2'
+import Loader3 from './Components/Loaders/Loader3'
+import CandidateDashboard from './Components/Candidate-Pages/Candidate Dashboard/CandidateDashboard'
 
 
 function App() {
@@ -30,7 +35,12 @@ function App() {
         <Route path="/jobs" element={<CandidateJobApply/>}/>
         <Route path="/CandidateLogin" element={<CandidateLogin/>}/>
         <Route path="/CompanyLogin" element={<CompanyLogin/>}/>
-        
+        <Route path='/CompanyDashboard' element={<CompanyDashboard/>}/>
+        <Route path='/CandidateDashboard' element={<CandidateDashboard/>}/>
+        <Route path="/loader1" element={<Loader1/>}/>
+        <Route path="/loader2" element={<Loader2/>}/>
+        <Route path="/loader3" element={<Loader3/>}/>
+
       </Routes>
       <Footer/>
       </BrowserRouter>
