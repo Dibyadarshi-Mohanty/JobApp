@@ -9,8 +9,8 @@ import Footer from './Components/Footer'
 import Hero from './Components/Hero/Hero'
 import Navbar from './Components/Navbar'
 import { BrowserRouter,Routes,Route } from 'react-router-dom'
-import Navbar1 from './Components/Navbar1'
 import CandidateJobApply from './Components/Candidate-Pages/Job-Apply/CandidateJobApply'
+import CandidateLogin from './Components/Candidate-Pages/CandidateLogin/CandidateLogin'
 
 function App() {
   
@@ -26,6 +26,7 @@ function App() {
         <Route path="/profile" element={<CProfile/>}/>
         <Route path="/job-listing" element={<JobPosting/>}/>
         <Route path="/jobs" element={<CandidateJobApply/>}/>
+        <Route path="/CandidateLogin" element={<CandidateLogin/>}/>
         
       </Routes>
       <Footer/>
