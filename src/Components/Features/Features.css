@@ -1,0 +1,63 @@
+/* General Styles */
+.Features {
+    /* background-color: #f8f9fa; Light background */
+  }
+  
+  .company-heading {
+    font-size: 40px;
+    font-weight: bold;
+    color: rgb(169, 11, 169);
+  }
+  
+  .feature-card {
+    border: none;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+    border-radius: 10px;
+    height: 400px;
+  }
+  
+  /* .feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  } */
+  
+  .feature-img {
+    height: 220px;
+    width: 350px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+  }
+  
+  
+  
+  .card-body {
+    padding: 20px;
+  }
+  
+  .card-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+  
+  .card-text {
+    font-size: 0.9rem;
+    color: #6c757d;
+  }
+  
+  .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+  }
+  
+  .btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+  }
+  
+  /* Spacing between cards */
+  .row.gy-4 > [class*="col-"] {
+    margin-bottom: 1rem;
+  }
+  

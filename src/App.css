@@ -1,0 +1,237 @@
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600&display=swap");
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Plus Jakarta Sans", sans-serif;
+}
+/* //navbar */
+  .navbar-brand{
+    width: 310px !important;
+  }
+  .navbar-logo{
+  width: 140px !important;
+  height: 19px;
+  }
+  .navbar-cont {
+    background-color: #fff !important; 
+    height: 67px;
+    z-index: 10;
+  }
+  .navbar-toggler {
+    border: none; 
+    background-color: #fff !important;
+    /* To make sure there's no border affecting the appearance */
+  }
+  .navbar-nav{
+    margin-left: auto;
+    gap: 20px;
+    background-color: #fff !important;
+  }
+  .navbar-button{
+    padding: 7px 15px;
+    outline: none;
+    border: none;
+    color: #333;
+  background-color: #59c17a;
+  border-radius: 5px;
+  font-size: 16px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* margin-left: 10px; */
+  }
+  .navbar-button a{
+    text-decoration: none;
+    color: black;
+    font-weight: 700;
+    text-align: center;
+    transition: 0.2s ease-in-out;
+  }
+  .navbar-button:hover{
+    color: white;
+  }
+/* Hero page */
+.hero-cont{
+  margin-top: 50px;
+  display:flex ;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  /* background-color: beige; */
+}
+.hero-img{
+  width: 100%;
+
+}
+.hero-heading{
+  font-size: 45px;
+  font-weight: bold;
+
+}
+.main-hero{
+  display: flex;
+  align-items:center ;
+  justify-content: center;
+
+}
+.hero-para{
+  font-size: 18px;
+}
+.job-div{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px 35px;
+  /* background-color: rgb(108, 103, 103); */
+  margin: 50px auto;
+  height: 100px;
+  max-width: 900px;
+  border-top-left-radius: 80px;
+  border-bottom-right-radius: 80px;
+  border-top-right-radius: 30px;
+  border-bottom-left-radius: 30px;
+  gap: 10px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+ 
+}
+.hero-select{
+  border: none !important;
+  box-shadow: none !important;
+}
+.job-div select{
+  padding: 10px 15px;
+  outline: none;
+  border: none;
+  font-size: 14px;
+  font-weight: bold;
+}
+.search-btn{
+border-top-left-radius: 80px;
+  border-bottom-right-radius: 80px;
+  border-top-right-radius: 30px;
+  border-bottom-left-radius: 30px;
+  padding: 20px 35px;
+  outline: none;
+  border: none;
+  font-size: 14px;
+  font-weight: bold;
+  background-color: #59c17a;
+}
+.poster{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px 35px;
+  background: #1D2B64;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #F8CDDA, #1D2B64);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #F8CDDA, #1D2B64); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  border-radius: 12px;
+  margin-bottom: 10px;
+  max-width: 1000px;
+  height: 150px;
+  position: relative;
+}
+.poster-img{
+  /* width: 100%; */
+  height: 145px;
+  position: absolute;
+  right: 30px;
+}
+.poster-content{
+  position: absolute;
+  left: 40px;
+}
+.poster-content h2{
+font-weight: bold;
+}
+.poster-btn{
+  padding: 7px 15px;
+  outline: none;
+  border: none;
+  color: white;
+background-color: #0ce7df;
+border-radius: 10px;
+font-size: 16px;
+text-align: center;
+display: flex;
+justify-content: center;
+align-items: center;
+font-weight: bold;
+}
+.poster a{
+  text-decoration: none;
+  font-weight: bold;
+  color: #333;
+}
+
+
+.about-cont{
+height: 100vh;
+margin-top: 50px;
+
+}
+.about-heading{
+display: flex;
+align-items: center;
+justify-content: center;
+flex-direction: column;
+
+}
+.about-heading h2{
+  font-weight: bold;
+  font-size: 40px;
+}
+.about-heading p{
+  font-weight: 600;
+  font-size: 20px;
+}
+#h2-h{
+  color: rgb(169, 11, 169);
+}
+.companyAbout{
+height: 100vh;
+}
+.company-heading{
+  font-size:40px;
+  font-weight: bold;
+  color: rgb(169, 11, 169);
+}
+.CA-C p{
+  font-size: 20px;
+  font-weight: 600;
+}
+.para{
+  font-size: 20px;
+}
+
+
+.C-img{
+  width: 100%;
+  height: 320px;
+}
+.Faq{
+  font-family: "Plus Jakarta Sans", sans-serif;
+  height: 100vh;
+}
+.Faq-p{
+  font-size: 18px;
+  font-weight: 600;
+}
+/* Hover effect for dropdown */
+.dropdown:hover .dropdown-div {
+  display: block; 
+   margin-top: 0; 
+}
+.dropdown-div{
+  /* display: flex; */
+  flex-direction: row;
+  gap: 30px;
+  /* margin: 10px; */
+  padding: 20px 30px;
+  border: 0.5px solid black;
+  width: 600px;
+display: none   ;
+  
+}

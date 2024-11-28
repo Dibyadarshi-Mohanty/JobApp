@@ -1,0 +1,57 @@
+/* Style for the navbar and dropdown */
+.navbar-cont .dropdown {
+    position: relative;
+  }
+  
+  .navbar-cont .dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: auto;
+    padding: 1rem;
+    z-index: 1000;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Show dropdown on hover */
+  .navbar-cont .dropdown:hover .dropdown-menu {
+    display: block;
+  }
+  
+  /* Custom button style for Candidate Login */
+  .navbar-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .navbar-button a {
+    color: white;
+    text-decoration: none;
+  }
+  
+  .navbar-button:hover {
+    background-color: #0056b3;
+  }
+  .dropdown:hover .dropdown-div {
+    display: block; 
+     margin-top: 0; 
+  }
+  .dropdown-div{
+    /* display: flex; */
+    flex-direction: row;
+    gap: 30px;
+    /* margin: 10px; */
+    padding: 20px 30px;
+    border: 0.5px solid black;
+    width: 600px;
+  display: none   ;
+    
+  }

@@ -1,0 +1,95 @@
+.preview-h1{
+    /* margin-top: 100px; */
+    text-align: center;
+    color: rgb(169, 11, 169);
+    font-weight: bold;
+    font-size: 30px;
+}
+
+
+.preview-div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin-top: 80px;
+    margin-bottom: 20px;
+}
+.profile-card {
+    background: #ffffff;
+    width: 450px;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    text-align: center;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.profile-img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 0 auto 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.profile-details {
+    margin: 20px 0;
+    text-align: left;
+}
+
+.profile-details label {
+    font-weight: bold;
+    font-size: 14px;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.profile-details p {
+    font-size: 14px;
+    margin: 0 0 15px;
+    color: #555;
+}
+
+.profile-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.btn {
+    background: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    width: 48%;
+}
+
+.btn:hover {
+    background: #0056b3;
+}
+
+.btn.logout {
+    background: #dc3545;
+}
+
+.btn.logout:hover {
+    background: #c82333;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

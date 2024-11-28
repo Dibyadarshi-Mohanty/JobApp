@@ -1,0 +1,84 @@
+.jobSearchDiv{
+    margin-top: 90px;
+    min-height: 100vh;
+    overflow: hidden;
+    /* text-align: center;   */
+}
+.job-card {
+    background-color: #fff;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    height: 220px;
+  }
+  .job-apply-heading{
+    font-size: 30px;
+    font-weight: bold ;
+    color: rgb(169, 11, 169);
+  }
+  .job-apply-p{
+    font-size:16px;
+    font-weight: 600 ;
+    margin-left: 10px;
+    margin-right: 50px;
+    color: rgb(62, 59, 59);
+  }
+  .job-card h2 {
+    margin-top: 0;
+    margin-bottom: 10px;
+  }
+  
+  .job-card p {
+    margin: 5px 0;
+  }
+  .apply{
+      display: flex;
+      justify-content: flex-end;
+  }
+  .apply-btn {
+    background-color: #4681f4;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  .apply-btn:hover {
+    background-color: #5783db;
+  }
+  .job-feature{
+      margin-bottom: 10px;
+      display: flex;
+      }
+  .job-feature i{
+      margin-right: 7px;
+  }
+  .job-feature p{
+      margin-right: 40px  ;
+      font-size: 14px;
+      
+  }
+  .filter-bar-job {
+    display: flex;
+    gap: 10px;
+    /* flex-wrap: wrap; */
+    margin-bottom: 20px;
+    /* align-items: center; */
+    /* justify-content: center; */
+  }
+  
+  .filter-bar-job select, .filter-bar-job button {
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  .filter-bar-job button {
+    background-color: #59c17a;
+    color: white;
+    cursor: pointer;
+  }
