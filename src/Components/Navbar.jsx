@@ -9,7 +9,9 @@ export default function Navbar() {
 
   useEffect(() => {
     if (user && isAuthenticated) {
-      navigate("/")
+      let currentUrl = window.location.pathname;
+      if (currentUrl === "/CompanyLogin" || currentUrl === "/CandidateLogin")
+        navigate("/")
     }
   }, [user])
 
