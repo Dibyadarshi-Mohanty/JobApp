@@ -1,64 +1,9 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import "./CandidateJobApply.css";
-// Job roles for the job filter
-const jobRoles = [
-  "App Developer",
-  "Game Developer",
-  "Web Developer",
-  "Software Engineer",
-  "Backend Developer",
-  "Frontend Developer",
-  "Full Stack Developer",
-  "Mobile Developer",
-  "Desktop Application Developer",
-  "Data Scientist",
-  "Data Engineer",
-  "Data Analyst",
-  "Machine Learning Engineer",
-  "Artificial Intelligence Engineer",
-  "Big Data Engineer",
-  "Deep Learning Specialist",
-  "DevOps Engineer",
-  "Cloud Engineer",
-  "Site Reliability Engineer (SRE)",
-  "Infrastructure Engineer",
-  "Platform Engineer",
-  "System Administrator",
-  "Cybersecurity Analyst",
-  "Security Engineer",
-  "Penetration Tester (Ethical Hacker)",
-  "Information Security Manager",
-  "Network Security Engineer",
-  "Network Engineer",
-  "Systems Engineer",
-  "Embedded Systems Developer",
-  "IoT Developer",
-  "Quality Assurance (QA) Engineer",
-  "Automation Tester",
-  "Performance Tester",
-  "Manual Tester",
-  "UI/UX Designer",
-  "Product Designer",
-  "Product Manager",
-  "Interaction Designer",
-  "Technical Lead",
-  "Engineering Manager",
-  "CTO (Chief Technology Officer)",
-  "Team Lead",
-  "Scrum Master",
-  "Blockchain Developer",
-  "Smart Contract Developer",
-  "AR/VR Developer",
-  "Quantum Computing Developer",
-  "Database Administrator",
-  "Data Architect",
-  "ETL Developer",
-  "Technical Writer",
-  "Documentation Specialist",
-  "Business Analyst",
-  "Integration Specialist",
-  "ERP Consultant (SAP, Oracle, etc.)",
-];
+import { experienceOptions, jobOptions as jobRoles } from "../../../constants/data";
+import { useLocation } from "react-router-dom";
+import PropTypes from "prop-types";
+
 
 // Generate candidate data
 const candidates = Array.from({ length: 50 }, (_, i) => ({
@@ -104,11 +49,14 @@ const CandidateJobApply = ({ candidate }) => {
   );
 };
 
-// Filter Bar Component
-const FilterBar = ({ onFilterChange }) => {
-  const [selectedJob, setSelectedJob] = useState("");
-  const [selectedExperience, setSelectedExperience] = useState("");
-  const [selectedLocation, setSelectedLocation] = useState("");
+CandidateJobApply.propTypes = {
+  candidate: PropTypes.object.isRequired,
+};
+
+const FilterBar = ({ onFilterChange, job, experience, location }) => {
+  const [selectedJob, setSelectedJob] = useState(job);
+  const [selectedExperience, setSelectedExperience] = useState(experience);
+  const [selectedLocation, setSelectedLocation] = useState(location);
 
   const handleApplyFilters = () => {
     onFilterChange({ selectedJob, selectedExperience, selectedLocation });
@@ -135,11 +83,13 @@ const FilterBar = ({ onFilterChange }) => {
         onChange={(e) => setSelectedExperience(e.target.value)}
       >
         <option value="">Years of Experience</option>
-        <option value="0">0 years</option>
-        <option value="1">1+ years</option>
-        <option value="3">3+ years</option>
-        <option value="5">5+ years</option>
-        <option value="15">15+ years</option>
+        {
+          experienceOptions.map((experience) => (
+            <option key={experience} value={experience}>
+              {experience}
+            </option>
+          ))
+        }
       </select>
 
       <select
@@ -162,8 +112,17 @@ const FilterBar = ({ onFilterChange }) => {
   );
 };
 
-// Main App Component
+FilterBar.propTypes = {
+  onFilterChange: PropTypes.func.isRequired,
+  job: PropTypes.string,
+  experience: PropTypes.string,
+  location: PropTypes.string,
+};
+
 const CandidateFilteringApp = () => {
+  const { state } = useLocation();
+  const { job, experience, location } = state || {};
+
   const [filteredCandidates, setFilteredCandidates] = useState(candidates);
 
   const handleFilterChange = ({
@@ -206,10 +165,15 @@ const CandidateFilteringApp = () => {
               experience, and location to find roles that match your expertise
               and preferences.
             </p>
-            <FilterBar onFilterChange={handleFilterChange} />
+            <FilterBar
+              onFilterChange={handleFilterChange}
+              job={job}
+              experience={experience}
+              location={location}
+            />
           </div>
           <div className="col-4">
-<img src="/images/jobApply.png" alt="" />
+            <img src="/images/jobApply.png" alt="" />
           </div>
         </div>
       </div>

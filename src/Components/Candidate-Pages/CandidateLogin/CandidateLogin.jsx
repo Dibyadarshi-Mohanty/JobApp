@@ -1,16 +1,51 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import "./CandidateLogin.css";
+import { useDispatch, useSelector } from "react-redux";
+import { login, register } from "../../../redux/actions/user.js";
+import { useNavigate } from "react-router-dom";
+
 export default function CandidateLogin() {
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { isAuthenticated } = useSelector((state) => state.user);
+
   const [isLogin, setIsLogin] = useState(true);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const toggleForm = () => {
     setIsLogin(!isLogin);
   };
 
+  const handleOnSubmit = async (e) => {
+    e.preventDefault();
+
+    if (isLogin) {
+      dispatch(login(email, password))
+    } else {
+      const formData = new FormData();
+      formData.append("name", name);
+      formData.append("email", email);
+      formData.append("password", password);
+
+      dispatch(register(formData, "candidate"));
+
+    }
+
+  }
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/");
+    }
+  }
+    , [isAuthenticated, navigate]);
+
   return (
     <div className="container mt-5 Candidatelogin-div">
       <div className="row mt-5 ">
-        {/* Left Side Section */}
         <div className="col-md-6 pt-5 ">
           <h1 className="fw-bold">
             Land your dream job in just 48 hours with TalentConnect.
@@ -36,7 +71,6 @@ export default function CandidateLogin() {
           </div>
         </div>
 
-        {/* Right Side Section */}
         <div className="col-md-6 login-d">
           <div className="card p-4 login-card shadow-sm">
             <h3 className="fw-bold text-center">
@@ -48,7 +82,6 @@ export default function CandidateLogin() {
                 : "Create an account to discover your dream job with TalentConnect"}
             </p>
 
-            {/* Form */}
             <form className="Loginform">
               {!isLogin && (
                 <div className="mb-3">
@@ -59,6 +92,7 @@ export default function CandidateLogin() {
                     type="text"
                     id="name"
                     className="form-control"
+                    onChange={(e) => setName(e.target.value)}
                     placeholder="Enter your name"
                     required
                   />
@@ -73,6 +107,7 @@ export default function CandidateLogin() {
                   id="email"
                   className="form-control"
                   placeholder="Enter your email"
+                  onChange={(e) => setEmail(e.target.value)}
                   required
                 />
               </div>
@@ -85,15 +120,15 @@ export default function CandidateLogin() {
                   id="password"
                   className="form-control"
                   placeholder="Enter your password"
+                  onChange={(e) => setPassword(e.target.value)}
                   required
                 />
               </div>
-              <button type="submit" className="btn btn-success w-100">
+              <button type="submit" onClick={handleOnSubmit} className="btn btn-success w-100">
                 {isLogin ? "Login" : "Sign Up"}
               </button>
             </form>
 
-            {/* Toggle Link */}
             <div className="text-center mt-3 toggle-div">
               <p>
                 {isLogin

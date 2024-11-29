@@ -1,4 +1,3 @@
-
 import './App.css'
 import CandidateJobListing from './Components/Candidate-Pages/Candidate-JobsListing/CandidateJobListing'
 import CandidateProfilePreview from './Components/Candidate-Pages/Candidate-Profile/CandidateProfilePreview'
@@ -8,34 +7,119 @@ import JobPosting from './Components/Company-Pages/JobPost/JobPosting'
 import Footer from './Components/Footer'
 import Hero from './Components/Hero/Hero'
 import Navbar from './Components/Navbar'
-import { BrowserRouter,Routes,Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import CandidateJobApply from './Components/Candidate-Pages/Job-Apply/CandidateJobApply'
 import CandidateLogin from './Components/Candidate-Pages/CandidateLogin/CandidateLogin'
 import CompanyLogin from './Components/Company-Pages/CompanyLogin/CompanyLogin'
 
+import { useDispatch, useSelector } from 'react-redux';
+import toast, { Toaster } from 'react-hot-toast';
+import { useEffect } from 'react';
+import { loadUser } from './redux/actions/user.js';
+import PrivateRoute from './Components/PrivateRoute';
 
 function App() {
-  
+  const dispatch = useDispatch();
+
+  const { error, message, loading, isAuthenticated } = useSelector(
+    (state) => state.user
+  );
+
+  useEffect(() => {
+    dispatch(loadUser());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+      dispatch({ type: "clearError" });
+    }
+    if (message) {
+      toast.success(message);
+      dispatch({ type: "clearMessage" });
+    }
+  }, [dispatch, error, message]);
+
+  if (loading || isAuthenticated === null) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <>
-     <BrowserRouter>
-      <Navbar/>
-      <Routes>
-        <Route path="/" element={<Hero/>}/>
-        <Route path="/upcoming-events" element={<CandidateJobListing/>}/>
-        <Route path="/profile-preview" element={<CandidateProfilePreview/>}/>
-        <Route path="/candidates-details" element={<CandidateDetails/>}/>
-        <Route path="/profile" element={<CProfile/>}/>
-        <Route path="/job-listing" element={<JobPosting/>}/>
-        <Route path="/jobs" element={<CandidateJobApply/>}/>
-        <Route path="/CandidateLogin" element={<CandidateLogin/>}/>
-        <Route path="/CompanyLogin" element={<CompanyLogin/>}/>
-        
-      </Routes>
-      <Footer/>
+      <BrowserRouter>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Hero />} />
+
+          {!isAuthenticated && (
+            <>
+              <Route path="/CandidateLogin" element={<CandidateLogin />} />
+              <Route path="/CompanyLogin" element={<CompanyLogin />} />
+            </>
+          )}
+
+          <Route
+            path="/upcoming-events"
+            element={
+              <PrivateRoute
+                element={<CandidateJobListing />}
+                allowedRoles={["candidate"]}
+              />
+            }
+          />
+          <Route
+            path="/jobs"
+            element={
+              // <PrivateRoute
+              //   element={<CandidateJobApply />}
+              //   allowedRoles={["candidate"]}
+              // />
+              <CandidateJobApply />
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <PrivateRoute
+                element={<CProfile />}
+                allowedRoles={["candidate"]}
+              />
+            }
+          />
+          <Route
+            path="/profile-preview"
+            element={
+              <PrivateRoute
+                element={<CandidateProfilePreview />}
+                allowedRoles={["candidate"]}
+              />
+            }
+          />
+
+          <Route
+            path="/candidates-details"
+            element={
+              <PrivateRoute
+                element={<CandidateDetails />}
+                allowedRoles={["interviewer"]}
+              />
+            }
+          />
+          <Route
+            path="/job-listing"
+            element={
+              <PrivateRoute
+                element={<JobPosting />}
+                allowedRoles={["interviewer"]}
+              />
+            }
+          />
+        </Routes>
+        <Footer />
+        <Toaster />
       </BrowserRouter>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

@@ -1,8 +1,24 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import "./Navbar.css"; // Import custom CSS for dropdown hover behavior
+import { Link, useNavigate } from "react-router-dom";
+import "./Navbar.css";
+import { useSelector } from "react-redux";
+import { useEffect } from "react";
 
 export default function Navbar() {
+  const { isAuthenticated, user } = useSelector((state) => state.user);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+
+    if (user && isAuthenticated) {
+      if (user.role === "candidate") {
+        navigate("/profile-preview")
+      }
+      else {
+        navigate("/job-listing")
+      }
+    }
+  }, [navigate])
+
   return (
     <nav className="navbar navbar-expand-lg bg-body-light navbar-cont fixed-top">
       <div className="container">
@@ -22,28 +38,11 @@ export default function Navbar() {
         </button>
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-            {/* <li className="nav-item">
-              <Link className="nav-link" to="/about">
-                About
-              </Link>
-            </li> */}
-
-            {/* Dropdown Menu */}
             <li className="nav-item dropdown">
-              {/* <a
-                className="nav-link dropdown-toggle"
-                href="#"
-                id="resourcesDropdown"
-                role="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                Product
-              </a> */}
-               <Link className="nav-link" to="/support">
+              <Link className="nav-link" to="/support">
                 Product
               </Link>
-            
+
             </li>
 
             <li className="nav-item">
@@ -51,19 +50,57 @@ export default function Navbar() {
                 Support
               </Link>
             </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/login">
-                Employer Login
-              </Link>
-            </li>
+            {
+              !isAuthenticated ? (
+                <>
+                  <li className="nav-item">
+                    <Link className="nav-link" to="/CompanyLogin">
+                      Employer Login
+                    </Link>
+                  </li>
 
-            <li>
-              <button className="navbar-button">
-                <Link to="/candidate-login" className="text-decoration-none">
-                  Candidate Login
-                </Link>
-              </button>
-            </li>
+                  <li>
+                    <button className="navbar-button">
+                      <Link to="/CandidateLogin" className="text-decoration-none">
+                        Candidate Login
+                      </Link>
+                    </button>
+                  </li>
+                </>
+              ) : (
+                <>
+                  {
+                    user?.role === "candidate" ? (
+                      <>
+                        <li className="nav-item">
+                          <Link className="nav-link" to="/profile-preview">
+                            Profile
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link className="nav-link" to="/CandidateJobApply">
+                            Apply for Job
+                          </Link>
+                        </li>
+                      </>
+                    ) : (
+                      <>
+                        <li className="nav-item">
+                          <Link className="nav-link" to="/job-listing">
+                            Post a Job
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link className="nav-link" to="/">
+                            Candidate Details
+                          </Link>
+                        </li>
+                      </>
+                    )
+                  }
+                </>
+              )
+            }
           </ul>
         </div>
       </div>

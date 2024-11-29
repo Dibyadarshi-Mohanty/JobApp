@@ -6,12 +6,12 @@ const skillsList = [
   "JavaScript", "TypeScript", "Python", "Java", "C++", "C#", "Ruby", "Go",
   "Swift", "Kotlin", "PHP", "Rust", "Scala", "React", "Angular", "Vue.js",
   "Next.js", "Express.js", "Django", "Flask", "Spring Boot", "Ruby on Rails",
-  "ASP.NET", "TensorFlow", "PyTorch", "MongoDB", "MySQL", "PostgreSQL", 
-  "SQLite", "Firebase", "OracleDB", "Redis", "Cassandra", "AWS", "Azure", 
-  "Google Cloud", "Docker", "Kubernetes", "CI/CD", "Jenkins", "Ansible", 
-  "Terraform", "Git", "GitHub", "GitLab", "JIRA", "Postman", "Figma", 
-  "Visual Studio Code", "Selenium", "Cypress", "Jest", "Mocha", "Chai", 
-  "JUnit", "Data Analysis", "Machine Learning", "Deep Learning", 
+  "ASP.NET", "TensorFlow", "PyTorch", "MongoDB", "MySQL", "PostgreSQL",
+  "SQLite", "Firebase", "OracleDB", "Redis", "Cassandra", "AWS", "Azure",
+  "Google Cloud", "Docker", "Kubernetes", "CI/CD", "Jenkins", "Ansible",
+  "Terraform", "Git", "GitHub", "GitLab", "JIRA", "Postman", "Figma",
+  "Visual Studio Code", "Selenium", "Cypress", "Jest", "Mocha", "Chai",
+  "JUnit", "Data Analysis", "Machine Learning", "Deep Learning",
   "Natural Language Processing", "Big Data", "Hadoop", "Spark"
 ];
 
