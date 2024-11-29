@@ -10,39 +10,36 @@ export default function CandidateProfilePreview() {
     dispatch(logout("candidate"));
   }
   return (
-    <>
+    <div className='container preview-div'>
+      <div className="profile-card">
+        <img className="profile-img" src={user?.profilePic.url ? user?.profilePic.url : `https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png`} alt="Profile Picture" />
 
-      <div className='container preview-div'>
-        <div className="profile-card">
-          <img className="profile-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS52y5aInsxSm31CvHOFHWujqUx_wWTS9iM6s7BAm21oEN_RiGoog" alt="Profile Picture" />
+        <div className="profile-details">
+          <label>Name:</label>
+          <p>
+            {user?.name}
+          </p>
 
-          <div className="profile-details">
-            <label>Name:</label>
-            <p>
-              {user?.name}
-            </p>
+          <label>Email:</label>
+          <p>{user?.email}</p>
 
-            <label>Email:</label>
-            <p>{user?.email}</p>
+          <label>Phone:</label>
+          <p>{user?.phoneNumber ? user?.phoneNumber : "Not added"}</p>
 
-            <label>Phone:</label>
-            <p>{user?.phoneNumber ? user?.phoneNumber : "Not added"}</p>
+          <label>Domain:</label>
+          <p>{user?.areaOfStudy ? user?.areaOfStudy : "Not added"}</p>
 
-            <label>Domain:</label>
-            <p>{user?.areaOfStudy ? user?.areaOfStudy : "Not added"}</p>
+          <label>Skills:</label>
+          <p>
+            {user?.skills.length > 0 ? user?.skills.join(",") : "Not added"}
+          </p>
+        </div>
 
-            <label>Skills:</label>
-            <p>
-              {user?.skills.length > 0 ? user?.skills.join(",") : "Not added"}
-            </p>
-          </div>
-
-          <div className="profile-buttons">
-            <button className="btn edit">Edit Profile</button>
-            <button className="btn logout" onClick={handleLogout}>Logout</button>
-          </div>
+        <div className="profile-buttons">
+          <button className="btn edit">Edit Profile</button>
+          <button className="btn logout" onClick={handleLogout}>Logout</button>
         </div>
       </div>
-    </>
+    </div>
   )
 }

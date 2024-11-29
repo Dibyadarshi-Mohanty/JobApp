@@ -41,22 +41,22 @@ export default function CompanyDashboard() {
       </div>
       <div className="row">
         <div className="col-6 ">
-        <h2 className="company-heading text-center">Quick Settings</h2> 
-<div className="post-jobs-want">
-    <div className="row">
-        <div className="col-6 mb-3 p-0">
-        <Link to="/#"><button className="card col-btn"><p><i class="fa-solid fa-pen"></i>Edit Your Profile</p></button></Link>
-        </div>
-        <div className="col-6 mb-3 p-0">
-        <Link to="/#"><button className="card col-btn"><p><i class="fa-solid fa-building"></i>Profile Preview</p></button></Link>
+          <h2 className="company-heading text-center">Quick Settings</h2>
+          <div className="post-jobs-want">
+            <div className="row">
+              <div className="col-6 mb-3 p-0">
+                <Link to="/#"><button className="card col-btn"><p><i class="fa-solid fa-pen"></i>Edit Your Profile</p></button></Link>
+              </div>
+              <div className="col-6 mb-3 p-0">
+                <Link to="/#"><button className="card col-btn"><p><i class="fa-solid fa-building"></i>Profile Preview</p></button></Link>
 
-        </div>
-    </div>
-    <Link to="/job-listing"><button className="card row-btn"><p><i className="fa-solid fa-plus mr-2 "></i>Want to post more  Jobs</p></button></Link>
-</div>
+              </div>
+            </div>
+            <Link to="/job-listing"><button className="card row-btn"><p><i className="fa-solid fa-plus mr-2 "></i>Want to post more  Jobs</p></button></Link>
+          </div>
         </div>
         <div className="col-6 JobListing">
-            <h2 className="company-heading text-center">Upcoming Interviews</h2>
+          <h2 className="company-heading text-center">Upcoming Interviews</h2>
           <div class="container EventsUpcoming">
             <div class="upcoming">
               <div class="event-block">

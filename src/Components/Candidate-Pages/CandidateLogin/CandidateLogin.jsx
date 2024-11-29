@@ -3,12 +3,13 @@ import "./CandidateLogin.css";
 import { useDispatch, useSelector } from "react-redux";
 import { login, register } from "../../../redux/actions/user.js";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 export default function CandidateLogin() {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { isAuthenticated } = useSelector((state) => state.user);
+  const { isAuthenticated, loading } = useSelector((state) => state.user);
 
   const [isLogin, setIsLogin] = useState(true);
   const [name, setName] = useState("");
@@ -23,15 +24,12 @@ export default function CandidateLogin() {
     e.preventDefault();
 
     if (isLogin) {
+      if (!email || !password) return toast.error("All fields are required");
       dispatch(login(email, password))
     } else {
-      const formData = new FormData();
-      formData.append("name", name);
-      formData.append("email", email);
-      formData.append("password", password);
-
+      if (!name || !email || !password) return toast.error("All fields are required");
+      const formData = { name, email, password };
       dispatch(register(formData, "candidate"));
-
     }
 
   }
@@ -125,7 +123,9 @@ export default function CandidateLogin() {
                 />
               </div>
               <button type="submit" onClick={handleOnSubmit} className="btn btn-success w-100">
-                {isLogin ? "Login" : "Sign Up"}
+                {
+                  isLogin ? loading ? "Loading..." : "Log in" : loading ? "Loading..." : "Sign Up"
+                }
               </button>
             </form>
 
@@ -134,8 +134,10 @@ export default function CandidateLogin() {
                 {isLogin
                   ? "Don't have an account?"
                   : "Already have an account?"}{" "}
-                <button className="toggleBtn" onClick={toggleForm}>
-                  {isLogin ? "Sign Up" : "Login"}
+                <button className="toggleBtn" onClick={toggleForm} disabled={loading}
+                  style={{ cursor: loading ? "not-allowed" : "pointer" }}
+                >
+                  {isLogin ? "Sign Up" : "Log in"}
                 </button>
               </p>
             </div>
