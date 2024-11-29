@@ -62,9 +62,6 @@ export default function CandidateJobListing() {
 
                     </div>
                 </div>
-                <div className="news">
-                    <div className="news-heading">News Section</div>
-                </div>
             </div>
         </div>
     )
