@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from "react-redux"
 import "./CandidateProfilePreview.css"
 import { logout } from "../../../redux/actions/user";
 import { useNavigate } from "react-router-dom";
+import { defaultAvatar } from "../../../constants/data";
 
 export default function CandidateProfilePreview() {
   const dispatch = useDispatch();
@@ -14,7 +15,7 @@ export default function CandidateProfilePreview() {
   return (
     <div className='container preview-div'>
       <div className="profile-card">
-        <img className="profile-img" src={user?.profilePic.url ? user?.profilePic.url : `https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png`} alt="Profile Picture" />
+        <img className="profile-img" src={user?.profilePic.url ? user?.profilePic.url : defaultAvatar} alt="Profile Picture" />
 
         <div className="profile-details">
           <label>Name:</label>

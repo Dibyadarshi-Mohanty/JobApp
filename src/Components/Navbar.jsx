@@ -8,14 +8,8 @@ export default function Navbar() {
   const navigate = useNavigate();
 
   useEffect(() => {
-
     if (user && isAuthenticated) {
-      if (user.role === "candidate") {
-        navigate("/profile-preview")
-      }
-      else {
-        navigate("/job-listing")
-      }
+      navigate("/")
     }
   }, [user])
 

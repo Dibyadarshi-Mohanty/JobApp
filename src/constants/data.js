@@ -35,4 +35,39 @@ const skillOptions = [
 
 const locations = ["Mumbai", "Hyderabad", "Chennai", "Bangalore", "Odisha", "Delhi"];
 
-export { jobOptions, experienceOptions, skillOptions, locations };
+const defaultAvatar = "https://www.pngitem.com/pimgs/m/150-1503945_transparent-user-png-default-user-image-png-png.png"
+
+const AREA_OF_STUDY = [
+    "Computer Science",
+    "Software Engineering",
+    "Information Technology",
+    "Data Science",
+    "Artificial Intelligence",
+    "Machine Learning",
+    "Cybersecurity",
+    "Web Development",
+    "Mobile App Development",
+    "Game Development",
+    "Cloud Computing",
+    "Data Analytics",
+    "Network Engineering",
+    "Robotics",
+    "Blockchain Technology",
+    "Human-Computer Interaction",
+    "Information Systems",
+    "Database Management",
+    "Electrical Engineering",
+    "Mechanical Engineering",
+    "Civil Engineering",
+    "Chemical Engineering",
+    "Biomedical Engineering",
+    "Business Administration",
+    "Economics",
+    "Mathematics",
+    "Physics",
+    "Chemistry",
+    "Environmental Science",
+    "Geographical Information Systems (GIS)",
+];
+
+export { jobOptions, experienceOptions, skillOptions, locations, defaultAvatar, AREA_OF_STUDY };
