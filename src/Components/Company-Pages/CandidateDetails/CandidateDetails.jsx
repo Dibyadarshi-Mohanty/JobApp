@@ -1,30 +1,8 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import "./CandidateDetails.css"
+import { skillOptions as skillsList, jobOptions as domainList } from "../../../constants/data.js"
 
-// Skills and Domains
-const skillsList = [
-  "JavaScript", "TypeScript", "Python", "Java", "C++", "C#", "Ruby", "Go",
-  "Swift", "Kotlin", "PHP", "Rust", "Scala", "React", "Angular", "Vue.js",
-  "Next.js", "Express.js", "Django", "Flask", "Spring Boot", "Ruby on Rails",
-  "ASP.NET", "TensorFlow", "PyTorch", "MongoDB", "MySQL", "PostgreSQL",
-  "SQLite", "Firebase", "OracleDB", "Redis", "Cassandra", "AWS", "Azure",
-  "Google Cloud", "Docker", "Kubernetes", "CI/CD", "Jenkins", "Ansible",
-  "Terraform", "Git", "GitHub", "GitLab", "JIRA", "Postman", "Figma",
-  "Visual Studio Code", "Selenium", "Cypress", "Jest", "Mocha", "Chai",
-  "JUnit", "Data Analysis", "Machine Learning", "Deep Learning",
-  "Natural Language Processing", "Big Data", "Hadoop", "Spark"
-];
 
-const domainList = [
-  "App Developer", "Game Developer", "Web Developer", "Software Engineer",
-  "Backend Developer", "Frontend Developer", "Full Stack Developer",
-  "Mobile Developer", "Desktop Application Developer", "Data Scientist",
-  "Data Engineer", "Data Analyst", "Machine Learning Engineer",
-  "Artificial Intelligence Engineer", "Big Data Engineer", "DevOps Engineer",
-  "Cloud Engineer", "Cybersecurity Analyst", "UI/UX Designer"
-];
-
-// Generate mock candidates
 const generateCandidates = () => {
   return Array.from({ length: 50 }, (_, i) => ({
     id: i + 1,
