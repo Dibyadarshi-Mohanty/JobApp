@@ -1,4 +1,3 @@
-
 const jobOptions = [
     "App Developer", "Game Developer", "Web Developer", "Software Engineer",
     "Backend Developer", "Frontend Developer", "Full Stack Developer", "Mobile Developer",

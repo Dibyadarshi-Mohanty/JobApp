@@ -1,17 +1,42 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import "./EmployerLogin.css";
+import { useDispatch } from "react-redux";
+import { login, register } from "../../../redux/actions/user.js"
+import { jobOptions } from "../../../constants/data";
 
 export default function CompanyLogin() {
+  const dispatch = useDispatch()
   const [isLogin, setIsLogin] = useState(true);
+  const [form, setForm] = useState({
+    name: "",
+    companyName: "",
+    companyEmail: "",
+    domainOfRecruitment: "",
+    password: "",
+  });
 
   const toggleForm = () => {
     setIsLogin(!isLogin);
   };
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setForm({ ...form, [name]: value });
+  }
+
+  const handleOnSubmit = (e) => {
+    e.preventDefault();
+    if (isLogin) {
+      const { companyEmail: email, password } = form;
+      dispatch(login(email, password));
+    } else {
+      dispatch(register(form, "interviewer"));
+    }
+  }
+
   return (
     <div className="container mt-5 EmployerLogin-div">
       <div className="row mt-5">
-        {/* Left Side Section */}
         <div className="col-md-6 pt-5">
           <h1 className="fw-bold">
             Hire top talent in just 48 hours with TalentConnect.
@@ -37,7 +62,6 @@ export default function CompanyLogin() {
           </div>
         </div>
 
-        {/* Right Side Section */}
         <div className="col-md-6 login-d">
           <div className="card p-1 company-login-card shadow-sm">
             <h3 className="fw-bold text-center">
@@ -49,9 +73,8 @@ export default function CompanyLogin() {
                 : "Create an account to find the best candidates"}
             </p>
 
-            {/* Form */}
             <form className="Loginform-company">
-              {!isLogin && (
+              {!isLogin ? (
                 <>
                   <div className="mb-3">
                     <label htmlFor="name" className="form-label">
@@ -60,8 +83,10 @@ export default function CompanyLogin() {
                     <input
                       type="text"
                       id="name"
+                      name="name"
                       className="form-control"
                       placeholder="Enter your name"
+                      onChange={(e) => handleChange(e)}
                       required
                     />
                   </div>
@@ -72,6 +97,8 @@ export default function CompanyLogin() {
                     <input
                       type="text"
                       id="company-name"
+                      name="companyName"
+                      onChange={(e) => handleChange(e)}
                       className="form-control"
                       placeholder="Enter your company name"
                       required
@@ -86,6 +113,8 @@ export default function CompanyLogin() {
                       id="company-email"
                       className="form-control"
                       placeholder="Enter your company email"
+                      name="companyEmail"
+                      onChange={(e) => handleChange(e)}
                       required
                     />
                   </div>
@@ -97,64 +126,44 @@ export default function CompanyLogin() {
                       id="signup-domain"
                       className="form-select"
                       required
+                      name="domainOfRecruitment"
+                      onChange={(e) => handleChange(e)}
+                      value={form.domainOfRecruitment}
                     >
-                      <option value="Computer Science">Computer Science</option>
-                      <option value="Software Engineering">
-                        Software Engineering
-                      </option>
-                      <option value="Information Technology">
-                        Information Technology
-                      </option>
-                      <option value="Data Science">Data Science</option>
-                      <option value="Artificial Intelligence">
-                        Artificial Intelligence
-                      </option>
-                      <option value="Machine Learning">Machine Learning</option>
-                      <option value="Cybersecurity">Cybersecurity</option>
-                      <option value="Web Development">Web Development</option>
-                      <option value="Mobile App Development">
-                        Mobile App Development
-                      </option>
-                      <option value="Game Development">Game Development</option>
-                      <option value="Cloud Computing">Cloud Computing</option>
-                      <option value="Data Analytics">Data Analytics</option>
-                      <option value="Network Engineering">
-                        Network Engineering
-                      </option>
-                      <option value="Robotics">Robotics</option>
-                      <option value="Blockchain Technology">
-                        Blockchain Technology
-                      </option>
-                      <option value="Human-Computer Interaction">
-                        Human-Computer Interaction
-                      </option>
-                      <option value="Information Systems">
-                        Information Systems
-                      </option>
-                      <option value="Database Management">
-                        Database Management
-                      </option>
+                      <option value="">Select Domain</option>
+                      {
+                        jobOptions.map((domain, index) => (
+                          <option value={domain} key={index}>{domain}</option>
+                        ))
+                      }
                     </select>
                   </div>
                 </>
+              ) : (
+                <>
+                  <div className="mb-3">
+                    <label htmlFor="company-email" className="form-label">
+                      Company Email
+                    </label>
+                    <input
+                      type="email"
+                      id="company-email"
+                      className="form-control"
+                      name="companyEmail"
+                      onChange={(e) => handleChange(e)}
+                      placeholder="Enter your company email"
+                      required
+                    />
+                  </div>
+                </>
               )}
-              <div className="mb-3">
-                <label htmlFor="email" className="form-label">
-                  Email
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  className="form-control"
-                  placeholder="Enter your email"
-                  required
-                />
-              </div>
               <div className="mb-3">
                 <label htmlFor="password" className="form-label">
                   Password
                 </label>
                 <input
+                  name="password"
+                  onChange={(e) => handleChange(e)}
                   type="password"
                   id="password"
                   className="form-control"
@@ -162,12 +171,13 @@ export default function CompanyLogin() {
                   required
                 />
               </div>
-              <button type="submit" className="btn btn-success w-100">
+              <button type="submit" className="btn btn-success w-100"
+                onClick={(e) => handleOnSubmit(e)}
+              >
                 {isLogin ? "Login" : "Sign Up"}
               </button>
             </form>
 
-            {/* Toggle Link */}
             <div className="text-center mt-3 toggle-div">
               <p>
                 {isLogin
