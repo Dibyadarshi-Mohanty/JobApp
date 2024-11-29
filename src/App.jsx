@@ -25,7 +25,7 @@ import { getJobs } from './redux/actions/job.js'
 function App() {
   const dispatch = useDispatch();
 
-  const { error, message, loading, isAuthenticated } = useSelector(
+  const { error, message, loading, user, isAuthenticated } = useSelector(
     (state) => state.user
   );
 
@@ -48,7 +48,7 @@ function App() {
     }
   }, [dispatch, error, message]);
 
-  if (loading || isAuthenticated === null) {
+  if ((user && loading) || isAuthenticated === null) {
     return (
       <div style={{ minHeight: '100dvh', display: "grid", alignItems: "center" }}>
         <Loader1 />
@@ -56,20 +56,36 @@ function App() {
     )
   }
 
-
   return (
     <>
       <BrowserRouter>
         <Navbar />
         <Routes>
-          <Route path="/" element={<Hero />} />
 
           {!isAuthenticated && (
             <>
+              <Route path="/" element={<Hero />} />
               <Route path="/CandidateLogin" element={<CandidateLogin />} />
               <Route path="/CompanyLogin" element={<CompanyLogin />} />
             </>
           )}
+
+          <Route
+            path="/"
+            element={
+              user && user.role === "candidate" ? (
+                <PrivateRoute
+                  element={<CandidateDashboard />}
+                  allowedRoles={["candidate"]}
+                />
+              ) : (
+                <PrivateRoute
+                  element={<CompanyDashboard />}
+                  allowedRoles={["interviewer"]}
+                />
+              )
+            }
+          />
 
           <Route
             path="/upcoming-events"
