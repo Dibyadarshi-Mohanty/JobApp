@@ -11,6 +11,11 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import CandidateJobApply from './Components/Candidate-Pages/Job-Apply/CandidateJobApply'
 import CandidateLogin from './Components/Candidate-Pages/CandidateLogin/CandidateLogin'
 import CompanyLogin from './Components/Company-Pages/CompanyLogin/CompanyLogin'
+import CompanyDashboard from './Components/Company-Pages/CompanyDashboard/CompanyDashboard'
+import Loader1 from './Components/Loaders/Loader1'
+import Loader2 from './Components/Loaders/Loader2'
+import Loader3 from './Components/Loaders/Loader3'
+import CandidateDashboard from './Components/Candidate-Pages/Candidate Dashboard/CandidateDashboard'
 
 import { useDispatch, useSelector } from 'react-redux';
 import toast, { Toaster } from 'react-hot-toast';
