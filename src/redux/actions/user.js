@@ -103,7 +103,7 @@ export const updateProfile = (formData, role) => async (dispatch) => {
             type: "updateProfileRequest",
         });
 
-        const { data } = await axios.put(`${BACKEND_URL}/${role}/update-profile`, formData, {
+        const { data } = await axios.put(`${BACKEND_URL}/${role}/update`, formData, {
             withCredentials: true,
         });
 

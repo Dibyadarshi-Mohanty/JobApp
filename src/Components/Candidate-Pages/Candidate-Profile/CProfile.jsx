@@ -1,31 +1,59 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import "./CProfile.css";
-
-const SKILLS = [
-  "JavaScript", "TypeScript", "Python", "Java", "C++", "C#", "Ruby", "Go", "Swift",
-  "Kotlin", "PHP", "Rust", "Scala", "React", "Angular", "Vue.js", "Next.js",
-  "Express.js", "Django", "Flask", "Spring Boot", "Ruby on Rails", "ASP.NET",
-  "TensorFlow", "PyTorch", "MongoDB", "MySQL", "PostgreSQL", "SQLite", "Firebase",
-  "OracleDB", "Redis", "Cassandra", "AWS", "Azure", "Google Cloud", "Docker",
-  "Kubernetes", "CI/CD", "Jenkins", "Ansible", "Terraform", "Git", "GitHub",
-  "GitLab", "JIRA", "Postman", "Figma", "Visual Studio Code", "Selenium", "Cypress",
-  "Jest", "Mocha", "Chai", "JUnit", "Data Analysis", "Machine Learning",
-  "Deep Learning", "Natural Language Processing", "Big Data", "Hadoop", "Spark"
-];
+import { useDispatch, useSelector } from "react-redux";
+import toast from "react-hot-toast";
+import { AREA_OF_STUDY, defaultAvatar } from "../../../constants/data";
+import { skillOptions } from "../../../constants/data";
+import { updateProfile } from "../../../redux/actions/user";
 
 function CProfile() {
-  const [profilePicture, setProfilePicture] = useState("default-avatar.png");
-  const [selectedSkills, setSelectedSkills] = useState([]);
+  const { user, loading } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
+  const [profilePicture, setProfilePicture] = useState(user?.profilePic?.url || defaultAvatar);
+  const [selectedSkills, setSelectedSkills] = useState(user?.skills || []);
   const [filterText, setFilterText] = useState("");
   const [isDropdownVisible, setDropdownVisible] = useState(false);
+  const [formData, setFormData] = useState({
+    institutationName: user?.institutationName || "",
+    DOB: user?.DOB || "",
+    areaOfStudy: user?.areaOfStudy || "",
+    yearsOfExperience: user?.yearsOfExperience || 0,
+    githubLink: user?.githubLink || "",
+    linkedinLink: user?.linkedinLink || "",
+    phone: user?.phoneNumber || "",
+  });
+  const [resume, setResume] = useState(null);
+  const [currentPictureFile, setCurrentPictureFile] = useState(null);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
   const handleProfilePictureChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => setProfilePicture(reader.result);
-      reader.readAsDataURL(file);
+    let file = e.target.files[0];
+
+    if (file && file.size > 5 * 1024 * 1024) {
+      return toast.error("File size should be less than 5MB.");
     }
+
+    file = new File([file], "profilePic", { type: file.type });
+    setCurrentPictureFile(file);
+
+    const reader = new FileReader();
+    reader.onload = () => setProfilePicture(reader.result);
+    reader.readAsDataURL(file);
+  };
+
+  const handleResumeChange = (e) => {
+    let file = e.target.files[0];
+
+    if (file && file.size > 5 * 1024 * 1024) {
+      return toast.error("File size should be less than 5MB.");
+    }
+    file = new File([file], "resume", { type: file.type });
+    setResume(file);
   };
 
   const addSkill = (skill) => {
@@ -40,120 +68,167 @@ function CProfile() {
     setSelectedSkills(selectedSkills.filter((skill) => skill !== skillToRemove));
   };
 
-  const filteredSkills = SKILLS.filter((skill) =>
-    skill.toLowerCase().includes(filterText.toLowerCase())
-  );
+
+  const handleSaveChanges = async (e) => {
+    e.preventDefault()
+    const data = new FormData();
+    data.append("phoneNumber", user?.phoneNumber || formData.phone);
+    data.append("institutationName", formData.institutationName);
+    data.append("DOB", formData.DOB);
+    if (selectedSkills.length > 0)
+      data.append("skills", selectedSkills);
+    if (formData.areaOfStudy)
+      data.append("areaOfStudy", formData.areaOfStudy);
+    data.append("yearsOfExperience", formData.yearsOfExperience);
+    data.append("githubLink", formData.githubLink);
+    data.append("linkedinLink", formData.linkedinLink);
+
+    if (resume) data.append("files", resume);
+    if (currentPictureFile) data.append("files", currentPictureFile);
+
+    dispatch(updateProfile(data, "candidate"));
+  };
 
   return (
     <div className="container profile-container">
+
       <div className="profile-picture-section">
         <h3>Profile Picture</h3>
         <div className="profile-picture">
-          <img id="preview" src={profilePicture} alt="Profile" />
+          <img src={profilePicture} alt="Profile" />
         </div>
-        <input
-          type="file"
-          accept="image/png, image/jpeg"
-          onChange={handleProfilePictureChange}
-        />
+        <input type="file" accept="image/*" onChange={handleProfilePictureChange} />
       </div>
 
       <div className="account-details-section">
         <h3>Account Details</h3>
         <div className="form-partition">
-          {/* Form 1 */}
-          <form className="form-1">
-            <label htmlFor="name">Name</label>
-            <input type="text" id="name" placeholder="Enter your name" required />
-
-            <label htmlFor="email">Email ID</label>
-            <input type="email" id="email" placeholder="Enter your email" required />
-
-            <label htmlFor="institution">Institution Name</label>
+          <form>
+            <label htmlFor="institutationName">Institution Name</label>
             <input
               type="text"
-              id="institution"
-              placeholder="Enter institution name"
+              name="institutationName"
+              value={formData.institutationName}
+              onChange={handleInputChange}
               required
             />
 
-            <label htmlFor="dob">Date of Birth</label>
-            <input type="date" id="dob" required />
+            <label htmlFor="phone">Phone Number</label>
+            <input
+              type="tel"
+              name="phone"
+              value={formData.phone}
+              onChange={handleInputChange}
+              required
+            />
 
-            <label htmlFor="domain">Domain</label>
-            <input type="text" id="domain" placeholder="Enter your domain" />
+            <label htmlFor="DOB">Date of Birth</label>
+            <input
+              type="date"
+              name="DOB"
+              value={
+                new Date(formData.DOB).toISOString().split("T")[0] || ""
+              }
+              onChange={handleInputChange}
+              required
+            />
 
-            <label htmlFor="study">Area of Study</label>
-            <select id="study">
-              <option value="graduate">Graduate</option>
-              <option value="postgraduate">Postgraduate</option>
-              <option value="matriculation">Matriculation</option>
+            <label htmlFor="areaOfStudy">Area of Study</label>
+            <select
+              name="areaOfStudy"
+              value={formData.areaOfStudy}
+              onChange={handleInputChange}
+            >
+              <option value="">Select Area of Study</option>
+              {
+                AREA_OF_STUDY.map((area) => (
+                  <option key={area} value={area}>
+                    {area}
+                  </option>
+                ))
+              }
             </select>
-          </form>
-
-          {/* Form 2 */}
-          <form className="form-2">
-            <label htmlFor="skills">Skills</label>
-            <div className="selected-skills">
-              {selectedSkills.map((skill) => (
-                <span key={skill}>
-                  {skill}
-                  <button onClick={() => removeSkill(skill)}>×</button>
-                </span>
-              ))}
-            </div>
-
-            <div className="skill-container">
-              <input
-                type="text"
-                id="myInput"
-                placeholder="Search and select skills..."
-                value={filterText}
-                onFocus={() => setDropdownVisible(true)}
-                onChange={(e) => setFilterText(e.target.value)}
-              />
-              {isDropdownVisible && (
-                <div className="dropdown" id="dropdown">
-                  <ul id="skillList">
-                    {filteredSkills.map((skill) => (
-                      <li key={skill} onClick={() => addSkill(skill)}>
-                        {skill}
-                      </li>
-                    ))}
+            <div className="skills-section">
+              <label htmlFor="skills">Skills</label>
+              <div className="selected-skills">
+                {selectedSkills.map((skill) => (
+                  <span key={skill} className="skill-chip">
+                    {skill}
+                    <button type="button" onClick={() => removeSkill(skill)}
+                      style={{ color: "black" }}>
+                      &times;
+                    </button>
+                  </span>
+                ))}
+              </div>
+              <div className="skill-input">
+                <input
+                  type="text"
+                  placeholder="Search and select skills..."
+                  value={filterText}
+                  onFocus={() => setDropdownVisible(true)}
+                  onChange={(e) => setFilterText(e.target.value)}
+                  onBlur={() => setTimeout(() => setDropdownVisible(false), 200)}
+                />
+                {isDropdownVisible && (
+                  <ul className="c-dropdown">
+                    {skillOptions
+                      .filter((skill) =>
+                        skill.toLowerCase().includes(filterText.toLowerCase())
+                      )
+                      .map((skill) => (
+                        <li key={skill} onClick={() => addSkill(skill)}>
+                          {skill}
+                        </li>
+                      ))}
                   </ul>
-                </div>
-              )}
+                )}
+              </div>
             </div>
 
-            <label htmlFor="resume">Resume Upload</label>
-            <input type="file" id="resume" accept=".pdf, .doc, .docx" />
+            <label htmlFor="resume">Resume</label>
+            <input type="file" name="resume" accept=".pdf,.doc,.docx" onChange={handleResumeChange} />
 
-            <label htmlFor="experience">Experience</label>
-            <input
-              type="number"
-              id="experience"
-              placeholder="Enter years of experience"
-              min="0"
-            />
-
-            <label htmlFor="linkedin">LinkedIn Profile Link (Optional)</label>
+            <label htmlFor="githubLink">GitHub Profile</label>
             <input
               type="url"
-              id="linkedin"
-              placeholder="Enter LinkedIn profile link"
+              name="githubLink"
+              value={formData.githubLink}
+              onChange={handleInputChange}
             />
 
-            <label htmlFor="github">GitHub Profile Link (Optional)</label>
+            <label htmlFor="linkedinLink">LinkedIn Profile</label>
             <input
               type="url"
-              id="github"
-              placeholder="Enter GitHub profile link"
+              name="linkedinLink"
+              value={formData.linkedinLink}
+              onChange={handleInputChange}
             />
+
+            <button type="button" onClick={(e) => handleSaveChanges(e)}
+              disabled={loading}
+              style={
+                {
+                  backgroundColor: "#333",
+                  color: "white",
+                  padding: "14px 20px",
+                  margin: "8px 0",
+                  border: "none",
+                  cursor: loading ? "none" : "pointer",
+                  width: "100%",
+                  opacity: "0.9",
+                  borderRadius: "5px",
+                }
+              }
+            >
+              {
+                loading ? "Saving..." : "Save Changses"
+              }
+            </button>
           </form>
         </div>
-        <button type="submit">Save Changes</button>
       </div>
-    </div>  
+    </div>
   );
 }
 
