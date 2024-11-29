@@ -3,12 +3,29 @@ import "./CandidateJobApply.css";
 import { experienceOptions, jobOptions as jobRoles, locations } from "../../../constants/data";
 import { useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Loader1 from "../../Loaders/Loader1";
+import toast from "react-hot-toast";
+import { applyJob } from "../../../redux/actions/user";
 
 
 const CandidateJobApply = ({ job }) => {
-  const { isAuthenticated } = useSelector(state => state.user)
+  const { user, isAuthenticated } = useSelector(state => state.user);
+  const dispatch = useDispatch();
+
+  const handleOnSubmit = (e) => {
+    e.preventDefault();
+
+    if (!isAuthenticated) {
+      return toast.error("Please login to apply for the job");
+    }
+
+    if (user?.appliedJobs?.includes(job._id)) {
+      return toast.error("You have already applied for this job");
+    }
+
+    dispatch(applyJob(job._id));
+  }
   return (
     <div className="job-card">
       <h3>
@@ -38,9 +55,15 @@ const CandidateJobApply = ({ job }) => {
         <button className="apply-btn" disabled={!isAuthenticated}
           style={{
             backgroundColor: isAuthenticated ? "#4CAF50" : "#ccc",
-            cursor: isAuthenticated ? "pointer" : "not-allowed"
+            cursor: isAuthenticated ? "pointer" : "not-allowed",
           }}
-        >Apply</button>
+          onClick={(e) => handleOnSubmit(e)}
+        >
+          {
+            user?.appliedJobs?.includes(job._id) ? "Applied" : "Apply"
+          }
+
+        </button>
       </div>
     </div>
   );

@@ -24,5 +24,4 @@ export const getJobs = (search) => async (dispatch) => {
             payload: error.response.data.message
         })
     }
-
 }

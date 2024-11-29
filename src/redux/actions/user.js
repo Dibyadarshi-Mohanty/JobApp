@@ -119,3 +119,26 @@ export const updateProfile = (formData, role) => async (dispatch) => {
         });
     }
 }
+
+export const applyJob = (jobId) => async (dispatch) => {
+    try {
+        dispatch({
+            type: "applyJobRequest",
+        });
+
+        const { data } = await axios.post(`${BACKEND_URL}/candidate/apply-job/${jobId}`, {}, {
+            withCredentials: true,
+        });
+
+        dispatch({
+            type: "applyJobSuccess",
+            payload: data,
+        });
+
+    } catch (error) {
+        dispatch({
+            type: "applyJobFailure",
+            message: error.response.data.message,
+        });
+    }
+}
