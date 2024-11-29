@@ -17,7 +17,7 @@ export default function Navbar() {
         navigate("/job-listing")
       }
     }
-  }, [navigate])
+  }, [user])
 
   return (
     <nav className="navbar navbar-expand-lg bg-body-light navbar-cont fixed-top">
@@ -78,7 +78,7 @@ export default function Navbar() {
                           </Link>
                         </li>
                         <li className="nav-item">
-                          <Link className="nav-link" to="/CandidateJobApply">
+                          <Link className="nav-link" to="/jobs">
                             Apply for Job
                           </Link>
                         </li>
