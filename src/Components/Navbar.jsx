@@ -39,14 +39,14 @@ export default function Navbar() {
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item dropdown">
-              <Link className="nav-link" to="/support">
+              <Link className="nav-link" to="/">
                 Product
               </Link>
 
             </li>
 
             <li className="nav-item">
-              <Link className="nav-link" to="/support">
+              <Link className="nav-link" to="/">
                 Support
               </Link>
             </li>
@@ -73,7 +73,7 @@ export default function Navbar() {
                     user?.role === "candidate" ? (
                       <>
                         <li className="nav-item">
-                          <Link className="nav-link" to="/profile-preview">
+                          <Link className="nav-link" to="/profile">
                             Profile
                           </Link>
                         </li>
@@ -88,11 +88,6 @@ export default function Navbar() {
                         <li className="nav-item">
                           <Link className="nav-link" to="/job-listing">
                             Post a Job
-                          </Link>
-                        </li>
-                        <li className="nav-item">
-                          <Link className="nav-link" to="/">
-                            Candidate Details
                           </Link>
                         </li>
                       </>

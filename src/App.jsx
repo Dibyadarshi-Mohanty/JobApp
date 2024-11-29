@@ -50,7 +50,7 @@ function App() {
 
   if ((user && loading) || isAuthenticated === null) {
     return (
-      <div style={{ minHeight: '100dvh', display: "grid", alignItems: "center" }}>
+      <div style={{ minHeight: '100vh', display: "flex", justifyContent: "center", alignItems: 'center' }}>
         <Loader1 />
       </div>
     )
@@ -103,7 +103,7 @@ function App() {
             }
           />
           <Route
-            path="/profile"
+            path="/edit-profile"
             element={
               <PrivateRoute
                 element={<CProfile />}
@@ -112,7 +112,7 @@ function App() {
             }
           />
           <Route
-            path="/profile-preview"
+            path="/profile"
             element={
               <PrivateRoute
                 element={<CandidateProfilePreview />}

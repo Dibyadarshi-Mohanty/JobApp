@@ -1,9 +1,11 @@
 import { useDispatch, useSelector } from "react-redux"
 import "./CandidateProfilePreview.css"
 import { logout } from "../../../redux/actions/user";
+import { useNavigate } from "react-router-dom";
 
 export default function CandidateProfilePreview() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { user } = useSelector((state) => state.user);
 
   const handleLogout = () => {
@@ -36,7 +38,7 @@ export default function CandidateProfilePreview() {
         </div>
 
         <div className="profile-buttons">
-          <button className="btn edit">Edit Profile</button>
+          <button className="btn edit" onClick={() => navigate("/edit-profile")}>Edit Profile</button>
           <button className="btn logout" onClick={handleLogout}>Logout</button>
         </div>
       </div>
