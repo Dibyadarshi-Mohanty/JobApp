@@ -25,6 +25,7 @@ export const userReducer = createReducer({
                 state.loading = false;
                 state.isAuthenticated = true;
                 state.user = action.payload.user;
+                state.message = action.payload.message;
             })
             .addCase("registerSuccess", (state, action) => {
                 state.loading = false;
@@ -48,13 +49,15 @@ export const userReducer = createReducer({
                 state.message = action.payload.message;
             })
         builder
-            .addCase("loginFailure", (state) => {
+            .addCase("loginFailure", (state, action) => {
                 state.loading = false;
                 state.isAuthenticated = false;
+                state.error = action.message;
             })
-            .addCase("registerFailure", (state) => {
+            .addCase("registerFailure", (state, action) => {
                 state.loading = false;
                 state.isAuthenticated = false;
+                state.error = action.message;
             })
             .addCase("loadUserFailure", (state) => {
                 state.loading = false;

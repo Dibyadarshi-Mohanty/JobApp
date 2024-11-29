@@ -76,9 +76,13 @@ export const register = (formData, role) => async (dispatch) => {
             type: "registerRequest",
         });
 
-        const { data } = await axios.post(`${BACKEND_URL}/${role}/signup`, formData, {
-            withCredentials: true,
-        });
+        const { data } = await axios.post(
+            `${BACKEND_URL}/${role}/signup`,
+            formData,
+            {
+                withCredentials: true,
+            }
+        );
 
         dispatch({
             type: "registerSuccess",
