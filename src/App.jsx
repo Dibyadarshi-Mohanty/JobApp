@@ -13,8 +13,6 @@ import CandidateLogin from './Components/Candidate-Pages/CandidateLogin/Candidat
 import CompanyLogin from './Components/Company-Pages/CompanyLogin/CompanyLogin'
 import CompanyDashboard from './Components/Company-Pages/CompanyDashboard/CompanyDashboard'
 import Loader1 from './Components/Loaders/Loader1'
-import Loader2 from './Components/Loaders/Loader2'
-import Loader3 from './Components/Loaders/Loader3'
 import CandidateDashboard from './Components/Candidate-Pages/Candidate Dashboard/CandidateDashboard'
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -22,6 +20,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import { useEffect } from 'react';
 import { loadUser } from './redux/actions/user.js';
 import PrivateRoute from './Components/PrivateRoute';
+import { getJobs } from './redux/actions/job.js'
 
 function App() {
   const dispatch = useDispatch();
@@ -35,6 +34,10 @@ function App() {
   }, [dispatch]);
 
   useEffect(() => {
+    dispatch(getJobs({}))
+  }, [])
+
+  useEffect(() => {
     if (error) {
       toast.error(error);
       dispatch({ type: "clearError" });
@@ -46,8 +49,13 @@ function App() {
   }, [dispatch, error, message]);
 
   if (loading || isAuthenticated === null) {
-    return <div>Loading...</div>;
+    return (
+      <div style={{ minHeight: '100dvh', display: "grid", alignItems: "center" }}>
+        <Loader1 />
+      </div>
+    )
   }
+
 
   return (
     <>
@@ -75,10 +83,6 @@ function App() {
           <Route
             path="/jobs"
             element={
-              // <PrivateRoute
-              //   element={<CandidateJobApply />}
-              //   allowedRoles={["candidate"]}
-              // />
               <CandidateJobApply />
             }
           />

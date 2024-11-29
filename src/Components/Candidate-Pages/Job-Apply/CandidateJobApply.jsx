@@ -1,33 +1,25 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./CandidateJobApply.css";
-import { experienceOptions, jobOptions as jobRoles } from "../../../constants/data";
+import { experienceOptions, jobOptions as jobRoles, locations } from "../../../constants/data";
 import { useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
+import Loader1 from "../../Loaders/Loader1";
 
 
-// Generate candidate data
-const candidates = Array.from({ length: 50 }, (_, i) => ({
-  name: `Candidate ${i + 1}`,
-  experience: Math.floor(Math.random() * 16), // Random years of experience
-  location: ["Mumbai", "Hyderabad", "Chennai", "Bangalore", "Odisha", "Delhi"][
-    Math.floor(Math.random() * 6)
-  ],
-  job: jobRoles[Math.floor(Math.random() * jobRoles.length)],
-}));
-
-// Candidate Card Component
-const CandidateJobApply = ({ candidate }) => {
+const CandidateJobApply = ({ job }) => {
+  const { isAuthenticated } = useSelector(state => state.user)
   return (
     <div className="job-card">
       <h3>
-        <b>{candidate.job}</b>
+        <b>{job.title}</b>
       </h3>
       <p>
-        <strong>{candidate.name}</strong>
+        <strong>{job.companyName ? job.companyName : "NA"}</strong>
       </p>
       <div className="job-feature">
         <p>
-          <i className="fa-solid fa-suitcase"></i> {candidate.experience} years
+          <i className="fa-solid fa-suitcase"></i> {job.yearsOfExperience} years
         </p>
         <p>
           <i className="fa-duotone fa-solid fa-indian-rupee-sign"></i> Not
@@ -35,22 +27,27 @@ const CandidateJobApply = ({ candidate }) => {
         </p>
         <p>
           <i className="fa-solid fa-location-dot"></i>{" "}
-          <b>{candidate.location}</b>
+          <b>{job.location}</b>
         </p>
       </div>
       <p>
-        <i className="fa-duotone fa-solid fa-note-sticky"></i> Test strategy,
-        ETL testing, Management consulting
+        <i className="fa-duotone fa-solid fa-note-sticky"></i>
+        {job.description}
       </p>
       <div className="apply">
-        <button className="apply-btn">Apply</button>
+        <button className="apply-btn" disabled={!isAuthenticated}
+          style={{
+            backgroundColor: isAuthenticated ? "#4CAF50" : "#ccc",
+            cursor: isAuthenticated ? "pointer" : "not-allowed"
+          }}
+        >Apply</button>
       </div>
     </div>
   );
 };
 
 CandidateJobApply.propTypes = {
-  candidate: PropTypes.object.isRequired,
+  job: PropTypes.object.isRequired,
 };
 
 const FilterBar = ({ onFilterChange, job, experience, location }) => {
@@ -98,7 +95,7 @@ const FilterBar = ({ onFilterChange, job, experience, location }) => {
         onChange={(e) => setSelectedLocation(e.target.value)}
       >
         <option value="">Select Location</option>
-        {["Mumbai", "Hyderabad", "Chennai", "Bangalore", "Odisha", "Delhi"].map(
+        {locations.map(
           (location) => (
             <option key={location} value={location}>
               {location}
@@ -122,35 +119,42 @@ FilterBar.propTypes = {
 const CandidateFilteringApp = () => {
   const { state } = useLocation();
   const { job, experience, location } = state || {};
+  const { jobs, loading } = useSelector(state => state.job)
 
-  const [filteredCandidates, setFilteredCandidates] = useState(candidates);
+  const [allJobs, setAlljobs] = useState(jobs);
+  const [filteredJobs, setFilteredJobs] = useState([]);
+
+  useEffect(() => {
+    setAlljobs(jobs);
+    setFilteredJobs(jobs);
+  }, [jobs]);
 
   const handleFilterChange = ({
     selectedJob,
     selectedExperience,
     selectedLocation,
   }) => {
-    let updatedCandidates = candidates;
+    let updateJobs = allJobs;
 
     if (selectedJob) {
-      updatedCandidates = updatedCandidates.filter(
-        (candidate) => candidate.job === selectedJob
+      updateJobs = updateJobs.filter(
+        (job) => job.category === selectedJob
       );
     }
 
     if (selectedExperience) {
-      updatedCandidates = updatedCandidates.filter(
-        (candidate) => candidate.experience >= Number(selectedExperience)
+      updateJobs = updateJobs.filter(
+        (job) => job.yearsOfExperience >= Number(selectedExperience)
       );
     }
 
     if (selectedLocation) {
-      updatedCandidates = updatedCandidates.filter(
-        (candidate) => candidate.location === selectedLocation
+      updateJobs = updateJobs.filter(
+        (job) => job.location === selectedLocation
       );
     }
 
-    setFilteredCandidates(updatedCandidates);
+    setFilteredJobs(updateJobs);
   };
 
   return (
@@ -165,12 +169,15 @@ const CandidateFilteringApp = () => {
               experience, and location to find roles that match your expertise
               and preferences.
             </p>
-            <FilterBar
-              onFilterChange={handleFilterChange}
-              job={job}
-              experience={experience}
-              location={location}
-            />
+            {
+              !loading &&
+              <FilterBar
+                onFilterChange={handleFilterChange}
+                job={job}
+                experience={experience}
+                location={location}
+              />
+            }
           </div>
           <div className="col-4">
             <img src="/images/jobApply.png" alt="" />
@@ -179,9 +186,22 @@ const CandidateFilteringApp = () => {
       </div>
 
       <div className="container " id="job-container">
-        {filteredCandidates.map((candidate, index) => (
-          <CandidateJobApply key={index} candidate={candidate} />
-        ))}
+        {
+          !loading && allJobs ? (
+            filteredJobs.length > 0 ? (
+              filteredJobs.map((job) => (
+                <CandidateJobApply key={job._id} job={job} />
+              ))
+            ) : (
+              <div className="no-jobs">
+                <h3>No Jobs Found</h3>
+                <p>Try changing the filters to find more opportunities</p>
+              </div>
+            )
+          ) : (
+            <Loader1 />
+          )
+        }
       </div>
     </div>
   );
