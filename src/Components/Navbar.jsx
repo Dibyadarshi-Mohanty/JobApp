@@ -12,7 +12,10 @@ export default function Navbar() {
       let currentUrl = window.location.pathname;
       if (currentUrl === "/CompanyLogin" || currentUrl === "/CandidateLogin")
         navigate("/")
+      if (currentUrl === "/edit-profile")
+        navigate("/profile")
     }
+
   }, [user])
 
   return (
@@ -81,6 +84,11 @@ export default function Navbar() {
                       </>
                     ) : (
                       <>
+                        <li className="nav-item">
+                          <Link className="nav-link" to="/profile">
+                            Profile
+                          </Link>
+                        </li>
                         <li className="nav-item">
                           <Link className="nav-link" to="/job-listing">
                             Post a Job

@@ -1,9 +1,10 @@
-.CompanyDashboard{
+.CompanyDashboard {
     margin-top: 100px;
     /* height: 100vh; */
     margin-bottom: 15px;
 }
-.company-name-div{
+
+.company-name-div {
     height: 70px;
     min-width: 900px;
     border-radius: 8px;
@@ -11,142 +12,149 @@
     padding: 3px;
     margin-bottom: 10px;
     text-align: center;
-   
+
 }
-.company-name-div{
+
+.company-name-div {
     font-size: 18px !important;
 }
-.dashboard-cards{
-    height:110px;
+
+.dashboard-cards {
+    height: 110px;
     padding: 10px;
     font-size: 15px;
 }
-.dashboard-cards h3{
-  font-weight: bold !important;
+
+.dashboard-cards h3 {
+    font-weight: bold !important;
 }
 
 
 
 /* /////////////////////////////////////////// */
-.upcoming{
+.upcoming {
     flex: 1.5;
     margin-top: 10px;
-    }
-    
+}
+
+.event-block {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+    box-shadow: 0px 0px 16px 0px rgba(187, 187, 187, 0.48);
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+    flex-direction: row;
+    max-width: 800px;
+}
+
+.event-block .content {
+    padding: 0px 10px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-left: 100px;
+}
+
+
+
+.events-date {
+    text-align: center;
+    position: absolute;
+    left: 20px;
+    top: 20px;
+    background-color: rgba(25, 47, 89, 0.9);
+    color: #fff;
+    padding: 12px 20px;
+    text-transform: uppercase;
+    border-radius: 4px;
+
+}
+
+.events-date .font-size28 {
+    font-size: 28px;
+}
+
+.events-date .font-size14 {
+    font-size: 14px;
+}
+
+.event-time {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 10px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.event-time li {
+    margin-right: 20px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+}
+
+.event-time li i {
+    color: #59c17a;
+    margin-right: 5px;
+}
+
+.event-block h5 {
+    font-size: 22px;
+    margin-bottom: 15px;
+    color: #192f59;
+}
+
+.event-block p {
+    margin-bottom: 20px;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #666;
+}
+
+.event-block a {
+    display: inline-block;
+    color: #59c17a;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.event-block a:hover {
+    text-decoration: underline;
+}
+
+button {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    color: black;
+}
+
+a {
+    color: black;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
     .event-block {
-            display: flex;
-            flex-wrap: wrap;
-            margin-bottom: 20px;
-            box-shadow: 0px 0px 16px 0px rgba(187, 187, 187, 0.48);
-            background: #fff;
-            border-radius: 8px;
-            overflow: hidden;
-            position: relative;
-            flex-direction: row;
-            max-width: 800px;
-    }
-    
-    .event-block .content {
-        padding: 0px 10px;
-        flex: 1;
-        display: flex;
         flex-direction: column;
-        justify-content: space-between;
-        margin-left: 100px;
     }
-    
-    
-    
-    .events-date {
-        text-align: center;
-        position: absolute;
-        left: 20px;
-        top: 20px;
-        background-color: rgba(25, 47, 89, 0.9);
-        color: #fff;
-        padding: 12px 20px;
-        text-transform: uppercase;
-        border-radius: 4px;
-        
+
+    .event-block .image-container {
+        flex: 0 0 100%;
     }
-    
-    .events-date .font-size28 {
-        font-size: 28px;
+
+    .event-block .content {
+        padding: 20px;
     }
-    
-    .events-date .font-size14 {
-        font-size: 14px;
-    }
-    
-    .event-time {
-        list-style: none;
-        padding: 0;
-        margin: 0 0 10px;
-        display: flex;
-        flex-wrap: wrap;
-    }
-    
-    .event-time li {
-        margin-right: 20px;
-        font-size: 14px;
-        display: flex;
-        align-items: center;
-    }
-    
-    .event-time li i {
-        color: #59c17a;
-        margin-right: 5px;
-    }
-    
-    .event-block h5 {
-        font-size: 22px;
-        margin-bottom: 15px;
-        color: #192f59;
-    }
-    
-    .event-block p {
-        margin-bottom: 20px;
-        font-size: 14px;
-        line-height: 1.5;
-        color: #666;
-    }
-    
-    .event-block a {
-        display: inline-block;
-        color: #59c17a;
-        text-decoration: none;
-        font-weight: bold;
-    }
-    
-    .event-block a:hover {
-        text-decoration: underline;
-    }
-    button {
-            padding: 8px 15px;
-            border: none;
-            border-radius: 5px;
-            font-size: 14px;
-            cursor: pointer;
-            color: black;
-                  } 
-                  a{
-                    color: black;
-                  }
-    /* Responsive Design */
-    @media screen and (max-width: 768px) {
-        .event-block {
-            flex-direction: column;
-        }
-    
-        .event-block .image-container {
-            flex: 0 0 100%;
-        }
-    
-        .event-block .content {
-            padding: 20px;
-        }
-    }
-    .check {
+}
+
+.check {
     padding: 8px 15px;
     border: none;
     border-radius: 5px;
@@ -160,72 +168,84 @@
     flex: 1;
     justify-content: space-evenly;
     text-decoration: none;
-    
+
     margin-left: auto;
-    }
-    #button-a{
+}
+
+#button-a {
     text-decoration: none;
     width: 400px;
     margin-left: auto;
-    
+
+}
+
+.EventsUpcoming {
+    overflow-y: scroll;
+    height: 720px;
+    cursor: grab;
+
+
+}
+
+.EventsUpcoming::-webkit-scrollbar {
+    width: 0px;
+}
+
+@media screen and (max-width: 1440px) and (min-width: 800px) {
+    .event-block {
+        max-width: 700px;
+        /* Adjust the max-width as needed */
+        position: relative;
+        /* padding-bottom: 30px; */
     }
-    .EventsUpcoming{
-        overflow-y: scroll;
-        height: 720px;
-        cursor:grab;
-        
-        
+
+    .event-block h5 {
+        font-size: 20px;
+        /* Adjust font size if necessary */
     }
-    .EventsUpcoming::-webkit-scrollbar{
-        width: 0px;
+
+    .event-block p {
+        font-size: 13px;
+        margin-right: 50px;
+        padding-right: 5px;
+        text-align: center;
+        /* Adjust font size if necessary */
     }
-    @media screen and (max-width: 1440px) and (min-width: 800px) {
-        .event-block {
-            max-width: 700px; /* Adjust the max-width as needed */
-            position: relative;
-            /* padding-bottom: 30px; */
-        }
-    
-        .event-block h5 {
-            font-size: 20px; /* Adjust font size if necessary */
-        }
-    
-        .event-block p {
-            font-size: 13px;
-            margin-right: 50px;
-            padding-right: 5px;
-            text-align: center; /* Adjust font size if necessary */
-        }
-        #button-a{
-            margin: auto;
+
+    #button-a {
+        margin: auto;
         /* margin-right: 20px; */
         padding-right: auto;
-    position: absolute;
-    right: 10px;
-    bottom: 5px;
-        }
-    
+        position: absolute;
+        right: 10px;
+        bottom: 5px;
     }
-    .row-btn{
-        height: 100px;
-        text-align: center;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 400px;
-        padding: 0%;
-    }
-    .post-jobs-want{
-        margin-top: 50px;
-    }
-    i{
-        margin-right: 10px;
-    }
-    .col-btn{
-        height: 60px;
-        text-align: center;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 200px;
-    }
+
+}
+
+.row-btn {
+    height: 100px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 400px;
+    padding: 0%;
+}
+
+.post-jobs-want {
+    margin-top: 50px;
+}
+
+i {
+    margin-right: 10px;
+}
+
+.col-btn {
+    height: 60px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 200px;
+}

@@ -142,3 +142,27 @@ export const applyJob = (jobId) => async (dispatch) => {
         });
     }
 }
+
+export const fetchApplications = (jobId) => async (dispatch) => {
+
+    try {
+        dispatch({
+            type: "fetchApplicationRequest",
+        });
+
+        const { data } = await axios.get(`${BACKEND_URL}/interviewer/get-applications/${jobId}`, {
+            withCredentials: true,
+        });
+
+        dispatch({
+            type: "fetchApplicationSuccess",
+            payload: data,
+        })
+    } catch (error) {
+        dispatch({
+            type: "fetchApplicationFailure",
+            message: error.response.data.message,
+        });
+    }
+
+}

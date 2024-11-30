@@ -1,0 +1,58 @@
+.profile-container {
+  text-align: center;
+  padding: 20px;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  width: 700px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-container h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+  color: #4d4d4d;
+}
+
+.profile-container p {
+  font-size: 16px;
+  margin-bottom: 20px;
+  color: #666;
+}
+
+.progress-bar {
+  position: relative;
+  height: 15px;
+  width: 100%;
+  background: #e0e0e0;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 0;
+  background: #4caf50;
+  border-radius: 10px;
+  transition: width 1s ease-in-out;
+}
+
+.complete-btn {
+  margin-top: 5px;
+  margin-bottom: 10px;
+  padding: 10px 20px;
+  background-color: #333;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+
+}
+
+.complete-btn:hover {
+  background-color: #555;
+}

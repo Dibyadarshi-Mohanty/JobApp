@@ -21,6 +21,8 @@ import { useEffect } from 'react';
 import { loadUser } from './redux/actions/user.js';
 import PrivateRoute from './Components/PrivateRoute';
 import { getJobs } from './redux/actions/job.js'
+import CompanyProfile from './Components/Company-Pages/CompanyProfile/CompanyProfile.jsx'
+import CompanyProfilePreview from './Components/Company-Pages/CompanyProfile/CompanyProfilePreview.jsx'
 
 function App() {
   const dispatch = useDispatch();
@@ -105,24 +107,38 @@ function App() {
           <Route
             path="/edit-profile"
             element={
-              <PrivateRoute
-                element={<CProfile />}
-                allowedRoles={["candidate"]}
-              />
+              user && user?.role === "candidate" ? (
+                <PrivateRoute
+                  element={<CProfile />}
+                  allowedRoles={["candidate"]}
+                />
+              ) : (
+                <PrivateRoute
+                  element={<CompanyProfile />}
+                  allowedRoles={["interviewer"]}
+                />
+              )
             }
           />
           <Route
             path="/profile"
             element={
-              <PrivateRoute
-                element={<CandidateProfilePreview />}
-                allowedRoles={["candidate"]}
-              />
+              user && user.role === "candidate" ? (
+                <PrivateRoute
+                  element={<CandidateProfilePreview />}
+                  allowedRoles={["candidate"]}
+                />
+              ) : (
+                <PrivateRoute
+                  element={<CompanyProfilePreview />}
+                  allowedRoles={["interviewer"]}
+                />
+              )
             }
           />
 
           <Route
-            path="/candidates-details"
+            path="/candidates-details/:id"
             element={
               <PrivateRoute
                 element={<CandidateDetails />}
