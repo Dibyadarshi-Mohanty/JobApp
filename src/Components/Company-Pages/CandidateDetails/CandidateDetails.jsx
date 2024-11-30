@@ -135,7 +135,7 @@ const CandidateDetails = () => {
                       }
                     >View Resume</button>
                     {
-                      candidate.status !== "rejected" ?
+                      candidate.status !== "rejected" && candidate.status !== "accepted" ?
                         <div >
                           <button className="accept"
                             onClick={() => acceptHandler(candidate.job, candidate.candidate._id, "accept")}
@@ -146,9 +146,14 @@ const CandidateDetails = () => {
                         </div>
                         :
                         <div
-                          style={{ color: "red" }}
+                          style={{
+                            color:
+                              candidate.status === "accepted" ? "green" : "red"
+                          }}
                         >
-                          Rejected
+                          {
+                            candidate.status === "accepted" ? "Accepted" : "Rejected"
+                          }
                         </div>
                     }
                   </div>

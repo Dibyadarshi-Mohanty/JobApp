@@ -90,7 +90,7 @@ function CProfile() {
   };
 
   return (
-    <div className="container profile-container">
+    <div className="container profile-containerc">
 
       <div className="profile-picture-section">
         <h3>Profile Picture</h3>
@@ -127,6 +127,7 @@ function CProfile() {
               type="date"
               name="DOB"
               value={
+                formData.DOB &&
                 new Date(formData.DOB).toISOString().split("T")[0] || ""
               }
               onChange={handleInputChange}

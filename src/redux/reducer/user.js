@@ -26,6 +26,9 @@ export const userReducer = createReducer({
             .addCase("fetchApplicationRequest", (state) => {
                 state.loading = true;
             })
+            .addCase("addJobRequest", (state) => {
+                state.loading = true;
+            })
         builder
             .addCase("loginSuccess", (state, action) => {
                 state.loading = false;
@@ -63,6 +66,11 @@ export const userReducer = createReducer({
                 state.loading = false;
                 state.applications = action.payload.data;
             })
+            .addCase("addJobSuccess", (state, action) => {
+                state.loading = false;
+                state.message = action.payload.message;
+                state.user = action.payload.user;
+            })
         builder
             .addCase("loginFailure", (state, action) => {
                 state.loading = false;
@@ -90,6 +98,10 @@ export const userReducer = createReducer({
             })
             .addCase("fetchApplicationFailure", (state) => {
                 state.loading = false;
+            })
+            .addCase("addJobFailure", (state, action) => {
+                state.loading = false;
+                state.error = action.message;
             })
 
         builder.addCase("clearError", (state) => {

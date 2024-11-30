@@ -164,5 +164,27 @@ export const fetchApplications = (jobId) => async (dispatch) => {
             message: error.response.data.message,
         });
     }
+}
 
+export const postJob = (form) => async (dispatch) => {
+    try {
+        dispatch({
+            type: "addJobRequest",
+        });
+
+        const { data } = await axios.post(`${BACKEND_URL}/interviewer/post-job`, form, {
+            withCredentials: true,
+        });
+
+        dispatch({
+            type: "addJobSuccess",
+            payload: data,
+        });
+
+    } catch (error) {
+        dispatch({
+            type: "addJobFailure",
+            message: error.response.data.message,
+        });
+    }
 }
