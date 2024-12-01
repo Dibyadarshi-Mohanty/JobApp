@@ -211,13 +211,13 @@ export const getReminders = () => async (dispatch) => {
     }
 }
 
-export const getRooms = () => async (dispatch) => {
+export const getRooms = (role) => async (dispatch) => {
     try {
         dispatch({
             type: "getRoomsRequest",
         })
 
-        const { data } = await axios.get(`${BACKEND_URL}/candidate/get-rooms`, {
+        const { data } = await axios.get(`${BACKEND_URL}/${role}/get-rooms`, {
             withCredentials: true,
         })
 

@@ -13,7 +13,7 @@ const CandidateDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch()
-  const { applications } = useSelector(state => state.user)
+  const { applications, rooms, loading } = useSelector(state => state.user)
 
   const [candidates, setCandidates] = useState(applications);
   const [filteredCandidates, setFilteredCandidates] = useState(candidates);
@@ -22,7 +22,6 @@ const CandidateDetails = () => {
     domain: "",
     skill: "",
   });
-  const [loading, setLoading] = useState(false);
 
   const handleFilterChange = (e) => {
     setFilters({
@@ -64,7 +63,6 @@ const CandidateDetails = () => {
 
   const acceptHandler = async (jobId, candidateId, status) => {
     try {
-      setLoading(true);
       if (status === "accept") {
         const { data } = await axios.put(`${BACKEND_URL}/interviewer/approve-candidate/${jobId}/${candidateId}`, {}, {
           withCredentials: true,
@@ -80,13 +78,21 @@ const CandidateDetails = () => {
         toast.success(data.message);
       }
       dispatch(fetchApplications(id));
-      setLoading(false);
     } catch (error) {
       toast.error(error.response.data.message);
-    } finally {
-      setLoading(false);
     }
   }
+  const getRoomCodeContent = (event) => {
+    const currentRoomCode = rooms && rooms.find((room) => room.jobId === event.job);
+
+    if (!currentRoomCode?.roomId) return <h5>
+      Reload the page to get room code
+    </h5>
+    return (
+      <h5 style={{ color: "#4CAF50" }}>Room Code:
+        {currentRoomCode?.roomId}</h5>
+    );
+  };
 
   if (loading) return <Loader1 />
 
@@ -94,7 +100,6 @@ const CandidateDetails = () => {
     <div className="Candidate-details">
       <h2 >Candidates Details</h2>
 
-      {/* Filter Bar */}
       <div className="filter-bar">
         <select name="experience" onChange={handleFilterChange}>
           <option value="">Years of Experience</option>
@@ -154,6 +159,12 @@ const CandidateDetails = () => {
                         >
                           {
                             candidate.status === "accepted" ? "Accepted" : "Rejected"
+                          }
+                          {
+                            candidate.status === "accepted" &&
+                            <div>
+                              {getRoomCodeContent(candidate)}
+                            </div>
                           }
                         </div>
                     }

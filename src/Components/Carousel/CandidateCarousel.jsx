@@ -29,15 +29,15 @@ const CandidateCarousel = () => {
   }
 
   const getRoomCodeContent = (event) => {
-    const currentDate = new Date();
-    const startDate = new Date(event.endDate);
+    const currentDate = new Date().toLocaleString().split(",")[0];
+    const startDate = new Date(event.endDate).toLocaleString().split(",")[0];
 
     const currentRoomCode =
       rooms && rooms.find((room) => room.jobId === event.applications[0].job);
 
-    if (currentDate === startDate) {
+    if (currentDate === startDate && currentRoomCode.roomId) {
       return (
-        <h5 style={{ color: "#4CAF50" }}>Room Code: {currentRoomCode}</h5>
+        <h5 style={{ color: "#4CAF50" }}>Room Code: {currentRoomCode.roomId}</h5>
       );
     }
 
@@ -96,7 +96,7 @@ const CandidateCarousel = () => {
                 </li>
               </ul>
               <p>{event.description}</p>
-              {event.applications[0].status === "accepted" && (
+              {event.applications[0]?.status === "accepted" && (
                 <div
                   style={{
                     backgroundColor: "#f4f4f4",

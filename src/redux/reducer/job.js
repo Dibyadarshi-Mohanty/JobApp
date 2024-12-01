@@ -1,6 +1,6 @@
 import { createReducer } from "@reduxjs/toolkit";
 
-const jobReducer = createReducer({},
+const jobReducer = createReducer({ jobs: [] },
     (builder) => {
         builder.addCase("searchJobRequest", (state) => {
             state.loading = true;

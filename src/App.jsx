@@ -7,7 +7,7 @@ import JobPosting from './Components/Company-Pages/JobPost/JobPosting'
 import Footer from './Components/Footer'
 import Hero from './Components/Hero/Hero'
 import Navbar from './Components/Navbar'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom'
 import CandidateJobApply from './Components/Candidate-Pages/Job-Apply/CandidateJobApply'
 import CandidateLogin from './Components/Candidate-Pages/CandidateLogin/CandidateLogin'
 import CompanyLogin from './Components/Company-Pages/CompanyLogin/CompanyLogin'
@@ -27,8 +27,9 @@ import Room from './Components/Room/Room.jsx'
 
 function App() {
   const dispatch = useDispatch();
+  const navigate = useNavigate()
 
-  const { error, message, loading, user, isAuthenticated } = useSelector(
+  const { reminders, rooms, error, message, loading, user, isAuthenticated } = useSelector(
     (state) => state.user
   );
 
@@ -42,9 +43,10 @@ function App() {
 
   useEffect(() => {
     if (user && user.role === "candidate") {
-      dispatch(getReminders())
-      dispatch(getRooms())
+      !reminders &&
+        dispatch(getReminders())
     }
+    user && !rooms && dispatch(getRooms(user?.role))
   }, [user, dispatch])
 
   useEffect(() => {
@@ -54,9 +56,17 @@ function App() {
     }
     if (message) {
       toast.success(message);
+      if (message === "Job posted successfully") {
+        dispatch(getJobs({}))
+        navigate('/')
+      }
+      if (message === "Applied for job successfully") {
+        dispatch(getReminders())
+      }
+
       dispatch({ type: "clearMessage" });
     }
-  }, [dispatch, error, message]);
+  }, [dispatch, error, message, navigate]);
 
   if ((user && loading) || isAuthenticated === null) {
     return (
@@ -68,114 +78,112 @@ function App() {
 
   return (
     <>
-      <BrowserRouter>
-        <Navbar />
-        <Routes>
+      <Navbar />
+      <Routes>
 
-          {!isAuthenticated && (
-            <>
-              <Route path="/" element={<Hero />} />
-              <Route path="/CandidateLogin" element={<CandidateLogin />} />
-              <Route path="/CompanyLogin" element={<CompanyLogin />} />
-            </>
-          )}
+        {!isAuthenticated && (
+          <>
+            <Route path="/" element={<Hero />} />
+            <Route path="/CandidateLogin" element={<CandidateLogin />} />
+            <Route path="/CompanyLogin" element={<CompanyLogin />} />
+          </>
+        )}
 
-          <Route
-            path="/"
-            element={
-              user && user.role === "candidate" ? (
-                <PrivateRoute
-                  element={<CandidateDashboard />}
-                  allowedRoles={["candidate"]}
-                />
-              ) : (
-                <PrivateRoute
-                  element={<CompanyDashboard />}
-                  allowedRoles={["interviewer"]}
-                />
-              )
-            }
-          />
-
-          <Route
-            path="/upcoming-events"
-            element={
+        <Route
+          path="/"
+          element={
+            user && user.role === "candidate" ? (
               <PrivateRoute
-                element={<CandidateJobListing />}
+                element={<CandidateDashboard />}
                 allowedRoles={["candidate"]}
               />
-            }
-          />
-          <Route
-            path="/jobs"
-            element={
-              <CandidateJobApply />
-            }
-          />
-          <Route
-            path="/edit-profile"
-            element={
-              user && user?.role === "candidate" ? (
-                <PrivateRoute
-                  element={<CProfile />}
-                  allowedRoles={["candidate"]}
-                />
-              ) : (
-                <PrivateRoute
-                  element={<CompanyProfile />}
-                  allowedRoles={["interviewer"]}
-                />
-              )
-            }
-          />
-          <Route
-            path="/profile"
-            element={
-              user && user.role === "candidate" ? (
-                <PrivateRoute
-                  element={<CandidateProfilePreview />}
-                  allowedRoles={["candidate"]}
-                />
-              ) : (
-                <PrivateRoute
-                  element={<CompanyProfilePreview />}
-                  allowedRoles={["interviewer"]}
-                />
-              )
-            }
-          />
+            ) : (
+              <PrivateRoute
+                element={<CompanyDashboard />}
+                allowedRoles={["interviewer"]}
+              />
+            )
+          }
+        />
 
-          <Route
-            path="/candidates-details/:id"
-            element={
+        <Route
+          path="/upcoming-events"
+          element={
+            <PrivateRoute
+              element={<CandidateJobListing />}
+              allowedRoles={["candidate"]}
+            />
+          }
+        />
+        <Route
+          path="/jobs"
+          element={
+            <CandidateJobApply />
+          }
+        />
+        <Route
+          path="/edit-profile"
+          element={
+            user && user?.role === "candidate" ? (
               <PrivateRoute
-                element={<CandidateDetails />}
+                element={<CProfile />}
+                allowedRoles={["candidate"]}
+              />
+            ) : (
+              <PrivateRoute
+                element={<CompanyProfile />}
                 allowedRoles={["interviewer"]}
               />
-            }
-          />
-          <Route
-            path="/job-listing"
-            element={
+            )
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            user && user.role === "candidate" ? (
               <PrivateRoute
-                element={<JobPosting />}
+                element={<CandidateProfilePreview />}
+                allowedRoles={["candidate"]}
+              />
+            ) : (
+              <PrivateRoute
+                element={<CompanyProfilePreview />}
                 allowedRoles={["interviewer"]}
               />
-            }
-          />
-          <Route
-            path='/room'
-            element={
-              <PrivateRoute
-                element={<Room />}
-                allowedRoles={["candidate", "interviewer"]}
-              />
-            }
-          />
-        </Routes>
-        <Footer />
-        <Toaster />
-      </BrowserRouter>
+            )
+          }
+        />
+
+        <Route
+          path="/candidates-details/:id"
+          element={
+            <PrivateRoute
+              element={<CandidateDetails />}
+              allowedRoles={["interviewer"]}
+            />
+          }
+        />
+        <Route
+          path="/job-listing"
+          element={
+            <PrivateRoute
+              element={<JobPosting />}
+              allowedRoles={["interviewer"]}
+            />
+          }
+        />
+        <Route
+          path='/room'
+          element={
+            <PrivateRoute
+              element={<Room />}
+              allowedRoles={["candidate", "interviewer"]}
+            />
+          }
+        />
+      </Routes>
+      <Footer />
+      <Toaster />
     </>
   );
 }

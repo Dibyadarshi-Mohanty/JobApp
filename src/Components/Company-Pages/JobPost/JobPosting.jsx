@@ -6,6 +6,8 @@ import toast from "react-hot-toast";
 import { postJob } from "../../../redux/actions/user";
 
 function JobPosting() {
+  const dispatch = useDispatch();
+
   const [domain, setDomain] = useState([]);
   const [category, setCategory] = useState();
   const [formData, setFormData] = useState(
@@ -19,7 +21,6 @@ function JobPosting() {
     }
   );
 
-  const dispatch = useDispatch();
 
   const handleDomainChange = (e) => {
     const selectedValue = e.target.value;

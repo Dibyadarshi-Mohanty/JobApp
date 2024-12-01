@@ -180,6 +180,25 @@ const CandidateFilteringApp = () => {
     setFilteredJobs(updateJobs);
   };
 
+  if (loading) {
+    return <Loader1 />
+  }
+
+  if (allJobs.length === 0) {
+    return (
+      <div className="no-jobs"
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "80vh"
+        }}
+      >
+        <h3>No Jobs Found</h3>
+      </div>
+    )
+  }
+
   return (
     <div className="jobSearchDiv">
       <div className=" container applyJobsDiv">
@@ -210,20 +229,10 @@ const CandidateFilteringApp = () => {
 
       <div className="container " id="job-container">
         {
-          !loading && allJobs ? (
-            filteredJobs.length > 0 ? (
-              filteredJobs.map((job) => (
-                <CandidateJobApply key={job._id} job={job} />
-              ))
-            ) : (
-              <div className="no-jobs">
-                <h3>No Jobs Found</h3>
-                <p>Try changing the filters to find more opportunities</p>
-              </div>
-            )
-          ) : (
-            <Loader1 />
-          )
+          filteredJobs.length > 0 &&
+          filteredJobs.map((job) => (
+            <CandidateJobApply key={job._id} job={job} />
+          ))
         }
       </div>
     </div>
