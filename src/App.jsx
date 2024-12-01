@@ -23,6 +23,7 @@ import PrivateRoute from './Components/PrivateRoute';
 import { getJobs } from './redux/actions/job.js'
 import CompanyProfile from './Components/Company-Pages/CompanyProfile/CompanyProfile.jsx'
 import CompanyProfilePreview from './Components/Company-Pages/CompanyProfile/CompanyProfilePreview.jsx'
+import Room from './Components/Room/Room.jsx'
 
 function App() {
   const dispatch = useDispatch();
@@ -152,6 +153,15 @@ function App() {
               <PrivateRoute
                 element={<JobPosting />}
                 allowedRoles={["interviewer"]}
+              />
+            }
+          />
+          <Route
+            path='/room'
+            element={
+              <PrivateRoute
+                element={<Room />}
+                allowedRoles={["candidate", "interviewer"]}
               />
             }
           />

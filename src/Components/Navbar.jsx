@@ -81,6 +81,11 @@ export default function Navbar() {
                             Apply for Job
                           </Link>
                         </li>
+                        <li className="nav-item">
+                          <Link className="nav-link" to="/room">
+                            Join Room
+                          </Link>
+                        </li>
                       </>
                     ) : (
                       <>
@@ -92,6 +97,11 @@ export default function Navbar() {
                         <li className="nav-item">
                           <Link className="nav-link" to="/job-listing">
                             Post a Job
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link className="nav-link" to="/room">
+                            Join Room
                           </Link>
                         </li>
                       </>

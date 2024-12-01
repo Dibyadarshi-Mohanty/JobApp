@@ -51,7 +51,9 @@ const JobListing = () => {
               <div className={styles.eventsDate}>
                 <div className={styles.dateTimeContainer}>
                   <h5 className={styles.dateTime}>{
-                    new Date(event.startDate).toDateString().split(" ")[2]
+                    `${new Date(event.startDate).toDateString().split(" ")[2]}
+                      ${new Date(event.startDate).toDateString().split(" ")[1]}
+                    `
                   }</h5>
                   <h5>{event.title}</h5>
                 </div>
