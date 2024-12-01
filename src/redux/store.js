@@ -9,4 +9,4 @@ export const store = configureStore({
     },
 });
 
-export const BACKEND_URL = "http://localhost:5000";
+export const BACKEND_URL = "https://talentconnect-backend.onrender.com";
