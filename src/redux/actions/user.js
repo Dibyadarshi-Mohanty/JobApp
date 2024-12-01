@@ -210,3 +210,25 @@ export const getReminders = () => async (dispatch) => {
         });
     }
 }
+
+export const getRooms = () => async (dispatch) => {
+    try {
+        dispatch({
+            type: "getRoomsRequest",
+        })
+
+        const { data } = await axios.get(`${BACKEND_URL}/candidate/get-rooms`, {
+            withCredentials: true,
+        })
+
+        dispatch({
+            type: "getRoomsSuccess",
+            payload: data,
+        })
+    } catch (error) {
+        dispatch({
+            type: "getRoomsFailure",
+            message: error.response.data.message,
+        })
+    }
+}

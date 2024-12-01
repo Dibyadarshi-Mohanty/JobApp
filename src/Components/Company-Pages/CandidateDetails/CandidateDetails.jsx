@@ -55,7 +55,7 @@ const CandidateDetails = () => {
   useEffect(() => {
     if (!applications)
       dispatch(fetchApplications(id));
-  }, []);
+  }, [applications]);
 
   const handleClick = (url) => {
     if (!url) return toast.error("No resume found");
@@ -79,6 +79,7 @@ const CandidateDetails = () => {
         });
         toast.success(data.message);
       }
+      dispatch(fetchApplications(id));
       setLoading(false);
     } catch (error) {
       toast.error(error.response.data.message);

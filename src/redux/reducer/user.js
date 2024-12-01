@@ -32,6 +32,9 @@ export const userReducer = createReducer({
             .addCase("getRemindersRequest", (state) => {
                 state.loading = true;
             })
+            .addCase("getRoomsRequest", (state) => {
+                state.loading = true;
+            })
         builder
             .addCase("loginSuccess", (state, action) => {
                 state.loading = false;
@@ -78,6 +81,10 @@ export const userReducer = createReducer({
                 state.loading = false;
                 state.reminders = action.payload.data;
             })
+            .addCase("getRoomsSuccess", (state, action) => {
+                state.loading = false;
+                state.rooms = action.payload.data;
+            })
         builder
             .addCase("loginFailure", (state, action) => {
                 state.loading = false;
@@ -111,6 +118,9 @@ export const userReducer = createReducer({
                 state.error = action.message;
             })
             .addCase("getRemindersFailure", (state) => {
+                state.loading = false;
+            })
+            .addCase("getRoomsFailure", (state) => {
                 state.loading = false;
             })
 
