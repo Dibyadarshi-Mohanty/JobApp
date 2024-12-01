@@ -188,3 +188,25 @@ export const postJob = (form) => async (dispatch) => {
         });
     }
 }
+
+export const getReminders = () => async (dispatch) => {
+    try {
+        dispatch({
+            type: "getRemindersRequest",
+        })
+
+        const { data } = await axios.get(`${BACKEND_URL}/candidate/reminder-meetings`, {
+            withCredentials: true,
+        })
+
+        dispatch({
+            type: "getRemindersSuccess",
+            payload: data,
+        })
+    } catch (error) {
+        dispatch({
+            type: "getRemindersFailure",
+            message: error.response.data.message,
+        });
+    }
+}

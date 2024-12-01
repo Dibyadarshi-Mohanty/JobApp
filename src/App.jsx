@@ -18,7 +18,7 @@ import CandidateDashboard from './Components/Candidate-Pages/Candidate Dashboard
 import { useDispatch, useSelector } from 'react-redux';
 import toast, { Toaster } from 'react-hot-toast';
 import { useEffect } from 'react';
-import { loadUser } from './redux/actions/user.js';
+import { getReminders, loadUser } from './redux/actions/user.js';
 import PrivateRoute from './Components/PrivateRoute';
 import { getJobs } from './redux/actions/job.js'
 import CompanyProfile from './Components/Company-Pages/CompanyProfile/CompanyProfile.jsx'
@@ -39,6 +39,11 @@ function App() {
   useEffect(() => {
     dispatch(getJobs({}))
   }, [])
+
+  useEffect(() => {
+    if (user && user.role === "candidate")
+      dispatch(getReminders())
+  }, [user, dispatch])
 
   useEffect(() => {
     if (error) {

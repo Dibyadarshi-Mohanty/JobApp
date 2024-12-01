@@ -82,7 +82,11 @@
   margin-bottom: 5px;
   border-radius: 10px;
   background-color: #8b53ff;
+  color: #fff;
   text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .eventsDate .fontSize14 {

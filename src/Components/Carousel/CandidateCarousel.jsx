@@ -1,8 +1,10 @@
-import React, { useRef } from "react";
-import styles from "./CandidateCarousel.module.css"; // Import the CSS module
+import { useRef } from "react";
+import styles from "./CandidateCarousel.module.css";
+import { useSelector } from "react-redux";
 
 const CandidateCarousel = () => {
   const carouselRef = useRef(null);
+  const { reminders } = useSelector(state => state.user);
 
   const handleScroll = (direction) => {
     const firstCardWidth = carouselRef.current.querySelector(`.${styles.eventBlock}`).offsetWidth;
@@ -13,70 +15,48 @@ const CandidateCarousel = () => {
     }
   };
 
-  const events = [
-    {
-      date: "10 Mar",
-      title: "Business Conference",
-      time: "01:30 PM - 04:30 PM",
-      fullDate: "10 March 2025",
-      company: "Infosys",
-      jobRole: "Data Analyst",
-      description: "Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat.",
-    },
-    {
-      date: "11 Mar",
-      title: "Tech Summit",
-      time: "10:00 AM - 01:00 PM",
-      fullDate: "11 March 2025",
-      company: "Google",
-      jobRole: "Software Engineer",
-      description: "Join us for a day of tech talks and networking with industry leaders."
-    },
-    {
-      date: "12 Mar",
-      title: "Marketing Workshop",
-      time: "09:00 AM - 12:00 PM",
-      fullDate: "12 March 2025",
-      company: "Facebook",
-      jobRole: "Marketing Specialist",
-      description: "Learn the latest trends in digital marketing and how to apply them."
-    },
-    {
-        date: "12 Mar",
-        title: "Marketing Workshop",
-        time: "09:00 AM - 12:00 PM",
-        fullDate: "12 March 2025",
-        company: "Facebook",
-        jobRole: "Marketing Specialist",
-        description: "Learn the latest trends in digital marketing and how to apply them."
-      }
-  ];
+  if (!reminders) return null;
+
+  if (reminders.length === 0) {
+    return (
+      <div className={styles.wrapper}>
+        <h1>No reminders</h1>
+      </div>
+    )
+  }
 
   return (
     <div className={styles.wrapper}>
-      <i id="left" className={`fa-solid fa-chevron-left ${styles.left}`} onClick={() => handleScroll("left")}></i>
+      {
+        reminders.length >= 3 &&
+        <i id="left" className={`fa-solid fa-chevron-left ${styles.left}`} onClick={() => handleScroll("left")}></i>
+      }
       <ul className={styles.carousel} ref={carouselRef}>
-        {events.map((event, index) => (
+        {reminders.map((event, index) => (
           <li className={styles.eventBlock} key={index}>
             <div className={styles.eventsDate}>
               <div className={styles.fontSize28}>
-                <h5 className={styles.dateTime}>{event.date}</h5>
+                <h5 className={styles.dateTime}>{
+                  `${new Date(event.startDate).toDateString().split(" ")[2]}
+                      ${new Date(event.startDate).toDateString().split(" ")[1]}
+                    `
+                }</h5>
                 <h5>{event.title}</h5>
               </div>
             </div>
             <div className={styles.content}>
               <ul className={styles.eventTime}>
                 <li>
-                  <i className="fa-solid fa-clock"></i> <b>{event.time}</b>
+                  <i className="fa-solid fa-clock"></i> <b>{
+                    `${new Date(event.startDate).toLocaleString().split(",")[0]}
+                     - ${new Date(event.endDate).toLocaleString().split(",")[0]}`
+                  }</b>
                 </li>
                 <li>
-                  <i className="fa-solid fa-calendar-days"></i> <b>{event.fullDate}</b>
+                  <i className="fa-solid fa-building"></i> <b>Company: {event.companyName}</b>
                 </li>
                 <li>
-                  <i className="fa-solid fa-building"></i> <b>Company: {event.company}</b>
-                </li>
-                <li>
-                  <i className="fa-solid fa-clipboard"></i> <b>Job Role: {event.jobRole}</b>
+                  <i className="fa-solid fa-clipboard"></i> <b>Job Role: {event.areaOfStudy}</b>
                 </li>
               </ul>
               <p>{event.description}</p>
@@ -84,7 +64,10 @@ const CandidateCarousel = () => {
           </li>
         ))}
       </ul>
-      <i id="right" className={`fa-solid fa-chevron-right ${styles.right}`} onClick={() => handleScroll("right")}></i>
+      {
+        reminders.length >= 3 &&
+        <i id="right" className={`fa-solid fa-chevron-right ${styles.right}`} onClick={() => handleScroll("right")}></i>
+      }
     </div>
   );
 };

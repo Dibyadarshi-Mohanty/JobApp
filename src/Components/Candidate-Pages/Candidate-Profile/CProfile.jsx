@@ -2,7 +2,7 @@ import { useState } from "react";
 import "./CProfile.css";
 import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
-import { AREA_OF_STUDY, defaultAvatar } from "../../../constants/data";
+import { AREA_OF_STUDY, defaultAvatar, experienceOptions } from "../../../constants/data";
 import { skillOptions } from "../../../constants/data";
 import { updateProfile } from "../../../redux/actions/user";
 
@@ -89,6 +89,7 @@ function CProfile() {
     dispatch(updateProfile(data, "candidate"));
   };
 
+  console.log(user?.yearsOfExperience)
   return (
     <div className="container profile-containerc">
 
@@ -133,6 +134,22 @@ function CProfile() {
               onChange={handleInputChange}
               required
             />
+
+            <label htmlFor="yearsOfExperience">Years of Experience</label>
+            <select value={formData.yearsOfExperience}
+              onChange={handleInputChange}
+              name="yearsOfExperience"
+            >
+              <option value="">Select your experience</option>
+              {
+                experienceOptions.map((exp) => (
+                  <option key={exp} value={exp}>
+                    {exp}+
+                  </option>
+                ))
+              }
+            </select>
+
 
             <label htmlFor="areaOfStudy">Area of Study</label>
             <select
