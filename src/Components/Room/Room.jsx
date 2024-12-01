@@ -5,6 +5,9 @@ import { useSelector } from "react-redux";
 function Room() {
     const { user } = useSelector(state => state.user);
     const [roomId, setRoomId] = useState("");
+    const [isRoomReady, setIsRoomReady] = useState(false);
+
+    console.log({ isRoomReady })
 
     return (
         <div
@@ -19,11 +22,11 @@ function Room() {
         >
             <h1>
                 {
-                    user?.role === "interviewer"
-                        ? "Join the room to start the interview"
-                        : `Best of luck for the interview, ${user?.name}!`
+                    !isRoomReady ?
+                        user?.role === "interviewer"
+                            ? "Join the room to start the interview"
+                            : `Best of luck for the interview, ${user?.name}!` : "Room Id"
                 }
-
             </h1>
             <div className="form-group">
                 <input
@@ -42,7 +45,7 @@ function Room() {
                             <p>Enter a room ID to join a video call.</p>
                         </div>)
                     :
-                    <VideoCall roomId={roomId} userId={user?._id} role={user?.role} />
+                    <VideoCall roomId={roomId} userId={user?._id} role={user?.role} setIsRoom={setIsRoomReady} />
             }
         </div>
     );

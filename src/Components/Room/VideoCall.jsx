@@ -5,7 +5,7 @@ import "./VideoCall.css";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
-const VideoCall = ({ roomId, userId, role }) => {
+const VideoCall = ({ roomId, userId, role, setIsRoom }) => {
     const navigate = useNavigate();
 
     const [isRoomReady, setIsRoomReady] = useState(false);
@@ -13,7 +13,6 @@ const VideoCall = ({ roomId, userId, role }) => {
     const [isWaiting, setIsWaiting] = useState(false);
     const [peerConnection, setPeerConnection] = useState(null);
     const [stream, setStream] = useState(null);
-    const [isMuted, setIsMuted] = useState(false);
     const [isCameraOn, setIsCameraOn] = useState(true);
     const [isSharingScreen, setIsSharingScreen] = useState(false);
 
@@ -28,6 +27,7 @@ const VideoCall = ({ roomId, userId, role }) => {
 
         socket.current.on("roomReady", () => {
             setIsRoomReady(true);
+            setIsRoom(true);
             setIsWaiting(false);
         });
 
@@ -113,14 +113,6 @@ const VideoCall = ({ roomId, userId, role }) => {
         return () => socket.current.off("signal");
     }, [peerConnection, roomId]);
 
-    const toggleMute = () => {
-        if (stream) {
-            const enabled = !isMuted;
-            stream.getAudioTracks()[0].enabled = enabled;
-            setIsMuted(!enabled);
-        }
-    };
-
     const toggleCamera = () => {
         if (stream) {
             const enabled = !isCameraOn;
@@ -130,33 +122,66 @@ const VideoCall = ({ roomId, userId, role }) => {
     };
 
     const startScreenShare = () => {
+        if (!peerConnection) {
+            setIsError("No active peer connection.");
+            return;
+        }
+
         if (!isSharingScreen) {
             navigator.mediaDevices
                 .getDisplayMedia({ video: true })
                 .then((screenStream) => {
-                    const sender = peerConnection
+                    const videoSender = peerConnection
                         .getSenders()
-                        .find((s) => s.track.kind === "video");
+                        .find((sender) => sender.track && sender.track.kind === "video");
 
-                    if (sender) sender.replaceTrack(screenStream.getVideoTracks()[0]);
+                    if (videoSender) {
+                        const screenTrack = screenStream.getVideoTracks()[0];
+                        videoSender.replaceTrack(screenTrack);
 
-                    screenStream.getVideoTracks()[0].onended = () => {
-                        sender.replaceTrack(stream.getVideoTracks()[0]);
-                        setIsSharingScreen(false);
-                    };
+                        screenTrack.onended = () => {
+                            videoSender.replaceTrack(stream.getVideoTracks()[0]);
+                            setIsSharingScreen(false);
+                        };
 
-                    setIsSharingScreen(true);
+                        setIsSharingScreen(true);
+                    }
                 })
                 .catch(() => setIsError("Error sharing screen."));
+        } else {
+            const videoSender = peerConnection
+                .getSenders()
+                .find((sender) => sender.track && sender.track.kind === "video");
+
+            if (videoSender && stream) {
+                videoSender.replaceTrack(stream.getVideoTracks()[0]);
+                setIsSharingScreen(false);
+            }
         }
     };
 
     const disconnectCall = () => {
-        if (peerConnection) peerConnection.close();
+        if (stream) {
+            stream.getTracks().forEach((track) => track.stop());
+        }
+
+        if (peerConnection) {
+            peerConnection.close();
+            setPeerConnection(null);
+        }
+
+        if (socket.current) {
+            socket.current.disconnect();
+        }
+
+        setStream(null);
         setIsRoomReady(false);
-        socket.current.disconnect();
+        setIsRoom(false);
+        setIsCameraOn(true);
+        setIsSharingScreen(false);
+
         toast.success("Thanks for using our service!");
-        navigate("/")
+        navigate("/");
     };
 
     return (
@@ -169,24 +194,28 @@ const VideoCall = ({ roomId, userId, role }) => {
                 <div>
                     <h2>Video Call</h2>
                     <div className="video-container">
-                        <video
-                            ref={videoRef}
-                            autoPlay
-                            muted
-                            style={{
-                                border: isMuted ? "2px solid red" : "2px solid green",
-                            }}
-                        />
-                        <video
-                            ref={remoteVideoRef}
-                            autoPlay
-                            style={{ border: "2px solid blue" }}
-                        />
+                        <div className="video-wrapper">
+                            <video
+                                ref={videoRef}
+                                autoPlay
+                                muted
+                            />
+                            <div className="video-name">
+                                {role === "interviewer" ? "Interviewer (You)" : "Candidate (You)"}
+                            </div>
+                        </div>
+                        <div className="video-wrapper">
+                            <video
+                                ref={remoteVideoRef}
+                                autoPlay
+                                style={{ border: "2px solid blue" }}
+                            />
+                            <div className="video-name">
+                                {role === "interviewer" ? "Candidate" : "Interviewer"}
+                            </div>
+                        </div>
                     </div>
                     <div className="controls">
-                        <button onClick={toggleMute}>
-                            {isMuted ? "Unmute" : "Mute"}
-                        </button>
                         <button onClick={toggleCamera}>
                             {isCameraOn ? "Turn Camera Off" : "Turn Camera On"}
                         </button>
@@ -207,4 +236,5 @@ VideoCall.propTypes = {
     roomId: propTypes.string.isRequired,
     userId: propTypes.string.isRequired,
     role: propTypes.string.isRequired,
+    setIsRoom: propTypes.func.isRequired,
 };
