@@ -4,6 +4,7 @@ import propTypes from "prop-types";
 import "./VideoCall.css";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { BACKEND_URL } from "../../redux/store";
 
 const VideoCall = ({ roomId, userId, role, setIsRoom }) => {
     const navigate = useNavigate();
@@ -21,7 +22,7 @@ const VideoCall = ({ roomId, userId, role, setIsRoom }) => {
     const socket = useRef(null);
 
     useEffect(() => {
-        socket.current = io("http://localhost:5000");
+        socket.current = io(`${BACKEND_URL}`);
 
         socket.current.emit("joinRoom", { roomId, userId, role });
 
