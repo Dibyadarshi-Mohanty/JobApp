@@ -199,7 +199,6 @@ const VideoCall = ({ roomId, userId, role, setIsRoom }) => {
                             <video
                                 ref={videoRef}
                                 autoPlay
-                                muted
                             />
                             <div className="video-name">
                                 {role === "interviewer" ? "Interviewer (You)" : "Candidate (You)"}

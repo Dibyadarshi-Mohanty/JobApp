@@ -34,7 +34,6 @@ const CandidateDetails = () => {
     let filtered = candidates;
     const { experience, skill } = filters;
 
-    console.log(filtered)
     if (experience) {
       filtered = filtered.filter(candidate => candidate.candidate.yearsOfExperience >= experience);
     }
@@ -83,7 +82,8 @@ const CandidateDetails = () => {
     }
   }
   const getRoomCodeContent = (event) => {
-    const currentRoomCode = rooms && rooms.find((room) => room.jobId === event.job);
+    const currentRoomCode = rooms && rooms.find((room) => room.candidateId === event.candidate._id);
+
 
     if (!currentRoomCode?.roomId) return <h5>
       Reload the page to get room code

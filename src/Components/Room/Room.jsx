@@ -1,6 +1,7 @@
 import { useState } from "react";
-import VideoCall from "./VideoCall";
+// import VideoCall from "./VideoCall";
 import { useSelector } from "react-redux";
+import Video from "./Video";
 
 function Room() {
     const { user } = useSelector(state => state.user);
@@ -45,7 +46,7 @@ function Room() {
                             <p>Enter a room ID to join a video call.</p>
                         </div>)
                     :
-                    <VideoCall roomId={roomId} userId={user?._id} role={user?.role} setIsRoom={setIsRoomReady} />
+                    <Video roomId={roomId} userId={user?._id} role={user?.role} setIsRoom={setIsRoomReady} />
             }
         </div>
     );
@@ -53,3 +54,4 @@ function Room() {
 
 export default Room
 
+{/* <VideoCall roomId={roomId} userId={user?._id} role={user?.role} setIsRoom={setIsRoomReady} /> */ }
