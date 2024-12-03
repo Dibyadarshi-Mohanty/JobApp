@@ -142,3 +142,22 @@ li .eventBlock::marker {
     grid-auto-columns: 100%;
   }
 }
+.copy-div{
+  position: absolute;
+  right: 10px;
+  top: 5px;
+  
+}
+.copy-code{
+  background-color: #66e78f;
+  color: white;
+  color: black;
+  font-weight: bold;
+}
+.copy-code:hover{
+  background-color: #afe6c0;
+  color: white;
+  color: black;
+  font-weight: bold;
+  transition: all 0.5s;
+}

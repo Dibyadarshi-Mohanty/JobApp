@@ -22,7 +22,8 @@ export default function Navbar() {
     <nav className="navbar navbar-expand-lg bg-body-light navbar-cont fixed-top">
       <div className="container">
         <Link className="navbar-brand" to="/">
-          <h2>TalentConnect</h2>
+          {/* <h2>TalentConnect</h2> */}
+          <img src="/images/logo2r.png" alt="" className="pt-2"/>
         </Link>
         <button
           className="navbar-toggler"

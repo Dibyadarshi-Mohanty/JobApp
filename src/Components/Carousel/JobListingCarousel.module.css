@@ -54,6 +54,7 @@
 }
 
 .eventBlock {
+    position: relative;
     scroll-snap-align: start;
     padding: 16px;
     background: #fff;
@@ -107,20 +108,68 @@
 .eventDescription {
     font-size: 0.9rem;
     margin-bottom: 12px;
+    padding-bottom: 30px;
 }
 
 .checkButton {
-    padding: 8px 16px;
+    padding: 10px 16px;
     background-color: orange;
     color: #fff;
     border: none;
     border-radius: 8px;
     cursor: pointer;
+    position: absolute;
+    bottom: 5px;
+    left: 5px;
 }
 
 .eventBlockMarker {
     display: none !important;
 }
+.dropdownContainer {
+    position: absolute;
+    right: 8px;
+    top: 10px;
+  }
+  
+  .threeDotButton {
+    background: transparent;
+    border: none;
+    font-size: 40px;
+    cursor: pointer;
+    color: black;
+    font-size: 30px;
+    /* position: absolute;
+    top: 5px; */
+  }
+  
+  .dropdownMenu {
+    position: absolute;
+    top: 60px !important;
+    right: 5px;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+  }
+  
+  .dropdownItem {
+    padding: 10px 20px;
+    background: transparent;
+    border-bottom: 0.5px solid black;
+    border: none;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    font-size: 14px;
+    color: black;
+    font-weight: bold;
+  }
+  
+  .dropdownItem:hover {
+    background-color: #f0f0f0;
+  }
 
 @media screen and (max-width: 900px) {
     .carousel {

@@ -105,6 +105,12 @@ const CandidateCarousel = () => {
                     marginTop: "10px",
                   }}
                 >
+                  {/* <button
+                    className="copy-code"
+                    onClick={() => copyToClipboard(currentRoom.roomId)}
+                  >
+                    Copy Code
+                  </button> */}
                   {getRoomCodeContent(event)}
                 </div>
               )}

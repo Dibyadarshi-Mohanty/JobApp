@@ -6,12 +6,10 @@ export default function Footer() {
       <footer className="footer">
         <div className="container">
             <div className="row">
-
-
                 <div className="col-lg-3 col-md-6 col-sm-6">
                     <div className="footer-about">
                         <div className="footer-logo">
-                            <a href="#"><img src="img/footer-logo.png" alt=""/></a>
+                            <a href="/"><img src="images/logo2r.png" alt=""/></a>
                         </div>
                         <p>TalentConnect: Empowering Talent, Enabling Success.</p>
                         <a href="#"><img src="img/payment.png" alt=""/></a>
@@ -20,12 +18,12 @@ export default function Footer() {
 
                 <div className="col-lg-2 offset-lg-1 col-md-3 col-sm-6">
                     <div className="footer-widget">
-                        <h6>Explore</h6>
+                        <h6>Candidate links</h6>
                         <ul>
-                            <li><a href="#">Home</a></li>
-                            <li><a href="#">Trending Shoes</a></li>
-                            <li><a href="#">Accessories</a></li>
-                            <li><a href="#">Sale</a></li>
+                            <li><a href="/">Dashboard</a></li>
+                            <li><a href="/profile">Profile</a></li>
+                            <li><a href="job-listing">Post Jobs</a></li>
+                            <li><a href="/room">Join Interviews</a></li>
 
                         </ul>
                     </div>
@@ -33,12 +31,12 @@ export default function Footer() {
 
                 <div className="col-lg-2  col-md-3 col-sm-6">
                     <div className="footer-widget">
-                        <h6>Links</h6>
+                        <h6>Employer links</h6>
                         <ul>
-                            <li><a href="#">Blogs</a></li>
-                            <li><a href="#">Contact</a></li>
-                            <li><a href="#">Features</a></li>
-                            <li><a href="#">Return & Exchanges</a></li>
+                            <li><a href="/">Dashboard</a></li>
+                            <li><a href="/profile">Profile</a></li>
+                            <li><a href="/jobs">Explore Jobs </a></li>
+                            <li><a href="/room">Join Interviews</a></li>
 
                         </ul>
                     </div>

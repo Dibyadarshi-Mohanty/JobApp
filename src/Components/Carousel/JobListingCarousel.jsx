@@ -23,6 +23,7 @@ const JobListing = () => {
   const candidateJobs = user && jobs && jobs.filter(job => job.createdBy === user._id);
 
   const [events, setEvents] = useState(candidateJobs);
+  const [visibleDropdown, setVisibleDropdown] = useState(null); // Track the visible dropdown by ID or index
 
   useEffect(() => {
     if (candidateJobs && candidateJobs.length > 0)
@@ -33,6 +34,15 @@ const JobListing = () => {
     navigate(`/candidates-details/${id}`)
     dispatch(fetchApplications(id))
   }
+  const [dropdownVisible, setDropdownVisible] = useState(false);
+
+  const toggleDropdown = (id) => {
+    setVisibleDropdown((prev) => (prev === id ? null : id)); // Toggle the dropdown for the specific event
+  };
+
+  const closeDropdown = () => {
+    setDropdownVisible(false);
+  };
 
   return (
     <div className={styles.wrapper}>
@@ -47,7 +57,7 @@ const JobListing = () => {
         {
           events && events.length > 0 &&
           events.map((event, index) => (
-            <li className={styles.eventBlock} key={index}>
+            <li className={styles.eventBlock} key={index} onClick={closeDropdown}> 
               <div className={styles.eventsDate}>
                 <div className={styles.dateTimeContainer}>
                   <h5 className={styles.dateTime}>{
@@ -58,6 +68,39 @@ const JobListing = () => {
                   <h5>{event.title}</h5>
                 </div>
               </div>
+              <div className={styles.dropdownContainer}>
+              <button
+                  className={styles.threeDotButton}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    toggleDropdown(event._id); // Use event ID to toggle
+                  }}
+                >
+            &#x22EE; {/* Vertical Ellipsis */}
+          </button>
+          {visibleDropdown === event._id && ( // Check if this event's dropdown should be visible
+                  <div className={styles.dropdownMenu}>
+                    <button
+                      className={styles.dropdownItem}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleUpdate(event._id);
+                      }}
+                    >
+                      Update
+                    </button>
+                    <button
+                      className={styles.dropdownItem}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDelete(event._id);
+                      }}
+                    >
+                      Delete
+                    </button>
+                  </div>
+          )}
+        </div>
               <div className={styles.content}>
                 <ul className={styles.eventTime}>
                   <li>

@@ -1,0 +1,66 @@
+.DownloadPDF-form-container {
+  width: 100%;
+  max-width: 500px;
+  margin: 2rem auto;
+  padding: 2rem;
+  border-radius: 10px;
+  color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  font-family: Arial, sans-serif;
+}
+
+h2 {
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+  color: black;
+  font-weight: bold;
+}
+
+.form-field {
+  margin-bottom: 1.5rem;
+}
+
+label {
+  display: block;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+select {
+  width: 100%;
+  padding: 0.8rem;
+  font-size: 1rem;
+  border-radius: 5px;
+  border: none;
+  outline: none;
+  transition: box-shadow 0.3s ease;
+}
+
+select:focus {
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+}
+
+.download-btn {
+  padding: 0.8rem 1.5rem;
+  background: rgb(50, 41, 41);
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+  
+}
+
+.download-btn:hover {
+  background: #2575fc;
+  color: white;
+  transform: translateY(-3px);
+}
+
+.download-btn:active {
+  transform: translateY(0);
+}
