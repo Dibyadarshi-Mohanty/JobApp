@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { io } from "socket.io-client";
 import propTypes from "prop-types";
+import { BACKEND_URL } from "../../redux/store";
 
 const VideoCall = ({ roomId, userId, role, setIsRoom }) => {
   const [isRoomReady, setIsRoomReady] = useState(false);
@@ -14,7 +15,7 @@ const VideoCall = ({ roomId, userId, role, setIsRoom }) => {
   const socket = useRef(null);
 
   useEffect(() => {
-    socket.current = io("http://localhost:5000");
+    socket.current = io(`${BACKEND_URL}`);
 
     socket.current.emit("joinRoom", { roomId, userId, role });
 
