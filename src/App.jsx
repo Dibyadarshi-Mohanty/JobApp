@@ -24,6 +24,8 @@ import { getJobs } from './redux/actions/job.js'
 import CompanyProfile from './Components/Company-Pages/CompanyProfile/CompanyProfile.jsx'
 import CompanyProfilePreview from './Components/Company-Pages/CompanyProfile/CompanyProfilePreview.jsx'
 import Room from './Components/Room/Room.jsx'
+import Quiz from './Components/Quiz/QuizApp.jsx'
+import DownloadPDF from './Components/Quiz/DownloadPDF.jsx'
 
 function App() {
   const dispatch = useDispatch();
@@ -33,13 +35,15 @@ function App() {
     (state) => state.user
   );
 
+  const { loading: jobloading, message: jobMessage } = useSelector(state => state.job);
+
   useEffect(() => {
     dispatch(loadUser());
   }, [dispatch]);
 
   useEffect(() => {
     dispatch(getJobs({}))
-  }, [])
+  }, [dispatch])
 
   useEffect(() => {
     if (user && user.role === "candidate") {
@@ -68,7 +72,22 @@ function App() {
     }
   }, [dispatch, error, message, navigate]);
 
+  useEffect(() => {
+    if (jobMessage) {
+      toast.success(jobMessage);
+      dispatch({ type: "clearMessage" });
+    }
+  }, [jobMessage, dispatch])
+
   if ((user && loading) || isAuthenticated === null) {
+    return (
+      <div style={{ minHeight: '100vh', display: "flex", justifyContent: "center", alignItems: 'center' }}>
+        <Loader1 />
+      </div>
+    )
+  }
+
+  if (jobloading) {
     return (
       <div style={{ minHeight: '100vh', display: "flex", justifyContent: "center", alignItems: 'center' }}>
         <Loader1 />
@@ -178,6 +197,24 @@ function App() {
             <PrivateRoute
               element={<Room />}
               allowedRoles={["candidate", "interviewer"]}
+            />
+          }
+        />
+        <Route
+          path='/quiz'
+          element={
+            <PrivateRoute
+              element={<Quiz />}
+              allowedRoles={["candidate"]}
+            />
+          }
+        />
+        <Route
+          path='/pdf'
+          element={
+            <PrivateRoute
+              element={<DownloadPDF />}
+              allowedRoles={["candidate"]}
             />
           }
         />

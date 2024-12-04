@@ -23,7 +23,7 @@ export default function Navbar() {
       <div className="container">
         <Link className="navbar-brand" to="/">
           {/* <h2>TalentConnect</h2> */}
-          <img src="/images/logo2r.png" alt="" className="pt-2"/>
+          <img src="/images/logo2r.png" alt="" className="pt-2" />
         </Link>
         <button
           className="navbar-toggler"
@@ -43,12 +43,6 @@ export default function Navbar() {
                 Product
               </Link>
 
-            </li>
-
-            <li className="nav-item">
-              <Link className="nav-link" to="/">
-                Support
-              </Link>
             </li>
             {
               !isAuthenticated ? (
@@ -85,6 +79,16 @@ export default function Navbar() {
                         <li className="nav-item">
                           <Link className="nav-link" to="/room">
                             Join Room
+                          </Link>
+                        </li>
+                        <li>
+                          <Link className="nav-link" to="/quiz">
+                            Quiz
+                          </Link>
+                        </li>
+                        <li>
+                          <Link className="nav-link" to="/pdf">
+                            Download PDF
                           </Link>
                         </li>
                       </>

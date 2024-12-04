@@ -1,5 +1,9 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import axios from "axios";
+import { jsPDF } from "jspdf";
 import "./DownloadPDF.css";
+import { BACKEND_URL } from "../../redux/store.js"
+import toast from "react-hot-toast";
 
 const DownloadPDF = () => {
   const [formData, setFormData] = useState({
@@ -7,6 +11,7 @@ const DownloadPDF = () => {
     numberOfQuestions: "",
     difficulty: "easy",
   });
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setFormData({
@@ -15,30 +20,72 @@ const DownloadPDF = () => {
     });
   };
 
-  // const handleDownload = () => {
-  //   if (!formData.subject || !formData.numberOfQuestions) {
-  //     alert("Please fill in all fields!");
-  //     return;
-  //   }
-  //   alert("PDF download triggered!");
-  // };
+  const generatePDF = async () => {
+    const { subject, numberOfQuestions, difficulty } = formData;
+
+    if (!subject || !numberOfQuestions) {
+      return toast.error("Please select all fields before downloading the PDF!");
+    }
+
+    try {
+      setLoading(true);
+      const response = await axios.post(
+        `${BACKEND_URL}/candidate/generate-pdf`,
+        {
+          numOfQuestion: numberOfQuestions,
+          language: subject,
+          difficulty,
+        }, {
+        withCredentials: true
+      }
+      );
+
+      if (response.data.success) {
+        setLoading(false);
+        const questions = response.data.data;
+
+        const doc = new jsPDF();
+        doc.setFontSize(16);
+        doc.text("Generated Questions", 10, 10);
+
+        let y = 20;
+        questions.forEach((line) => {
+          if (y > 280) {
+            doc.addPage();
+            y = 10;
+          }
+          doc.text(line, 10, y);
+          y += 10;
+        });
+
+        doc.save(`questions_${subject}_${difficulty}.pdf`);
+      } else {
+        alert("Failed to generate the PDF. Please try again.");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("An error occurred while generating the PDF.");
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="DownloadPDF-form-container">
-      <h2>Download Question PDF </h2>
+      <h2>Download Question PDF</h2>
       <div className="form-field">
-        <label htmlFor="subject">Subject</label>
+        <label htmlFor="subject">language</label>
         <select
           name="subject"
           id="subject"
           value={formData.subject}
           onChange={handleChange}
         >
-          <option value="">Select Subject</option>
-          <option value="math">Mathematics</option>
-          <option value="science">Science</option>
-          <option value="history">History</option>
-          <option value="geography">Geography</option>
+          <option value="">Select Language</option>
+          <option value="javascript">JavaScript</option>
+          <option value="python">Python</option>
+          <option value="java">Java</option>
+          <option value="c">C</option>
+          <option value="c++">C++</option>
         </select>
       </div>
       <div className="form-field">
@@ -53,7 +100,6 @@ const DownloadPDF = () => {
           <option value="5">5</option>
           <option value="10">10</option>
           <option value="15">15</option>
-          <option value="20">20</option>
         </select>
       </div>
       <div className="form-field">
@@ -69,11 +115,10 @@ const DownloadPDF = () => {
           <option value="hard">Hard</option>
         </select>
       </div>
-      {/* <button className="download-btn" onClick={handleDownload}>
-        Download PDF
-      </button> */}
-      <button className="download-btn" >
-        Download PDF
+      <button className="download-btn" onClick={generatePDF} disabled={loading}>
+        {
+          loading ? "Generating PDF..." : "Download PDF"
+        }
       </button>
     </div>
   );
