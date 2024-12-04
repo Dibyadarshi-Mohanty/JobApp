@@ -79,6 +79,7 @@ const DownloadPDF = () => {
           id="subject"
           value={formData.subject}
           onChange={handleChange}
+          className="select-field"
         >
           <option value="">Select Language</option>
           <option value="javascript">JavaScript</option>
@@ -95,6 +96,7 @@ const DownloadPDF = () => {
           id="numberOfQuestions"
           value={formData.numberOfQuestions}
           onChange={handleChange}
+          className="select-field"
         >
           <option value="">Select Number</option>
           <option value="5">5</option>
@@ -109,6 +111,7 @@ const DownloadPDF = () => {
           id="difficulty"
           value={formData.difficulty}
           onChange={handleChange}
+          className="select-field"
         >
           <option value="easy">Easy</option>
           <option value="medium">Medium</option>
