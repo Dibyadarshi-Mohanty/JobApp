@@ -1,20 +1,99 @@
 import { useState, createContext, useContext } from "react";
-import "./QuizApp.css"; // Import the CSS file
+import "./QuizApp.css";
 
 const GameStateContext = createContext();
 
 function QuizApp() {
-  const [gameState, setGameState] = useState("playing");
+  const [gameState, setGameState] = useState("start");
+  const [formData, setFormData] = useState({
+    subject: "",
+    numberOfQuestions: "",
+    difficulty: "",
+  });
   const [score, setScore] = useState(0);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const startAssessment = () => {
+    if (!formData.subject || !formData.numberOfQuestions || !formData.difficulty) {
+      alert("Please fill all fields before starting the assessment!");
+      return;
+    }
+    setGameState("playing");
+  };
 
   return (
     <GameStateContext.Provider value={{ gameState, setGameState, score, setScore }}>
       <div className="div-main">
-        <h1 className="mt-3 fw-bold p-3">Take a Assessment</h1>
+        {gameState === "start" && (
+          <StartPage
+            formData={formData}
+            handleChange={handleChange}
+            startAssessment={startAssessment}
+          />
+        )}
         {gameState === "playing" && <Quiz />}
         {gameState === "finished" && <EndScreen />}
       </div>
     </GameStateContext.Provider>
+  );
+}
+
+function StartPage({ formData, handleChange, startAssessment }) {
+  return (
+    <div className="container Quiz-container">
+      <h1 className="quiz-heading">Take a Assessment </h1>
+      <div className="form-field ">
+        <label htmlFor="subject">Language</label>
+        <select
+          name="subject"
+          id="subject"
+          value={formData.subject}
+          onChange={handleChange}
+        >
+          <option value="">Select Language</option>
+          <option value="javascript">JavaScript</option>
+          <option value="python">Python</option>
+          <option value="java">Java</option>
+          <option value="c">C</option>
+          <option value="c++">C++</option>
+        </select>
+      </div>
+      <div className="form-field">
+        <label htmlFor="numberOfQuestions">Number of Questions</label>
+        <select
+          name="numberOfQuestions"
+          id="numberOfQuestions"
+          value={formData.numberOfQuestions}
+          onChange={handleChange}
+        >
+          <option value="">Select Number</option>
+          <option value="5">5</option>
+          <option value="10">10</option>
+          <option value="15">15</option>
+        </select>
+      </div>
+      <div className="form-field">
+        <label htmlFor="difficulty">Difficulty Level</label>
+        <select
+          name="difficulty"
+          id="difficulty"
+          value={formData.difficulty}
+          onChange={handleChange}
+        >
+          <option value="">Select Difficulty</option>
+          <option value="easy">Easy</option>
+          <option value="medium">Medium</option>
+          <option value="hard">Hard</option>
+        </select>
+      </div>
+      <button className="assessment-btn" onClick={startAssessment}>
+        Start Assessment
+      </button>
+    </div>
   );
 }
 
@@ -31,23 +110,16 @@ function Quiz() {
   ];
 
   const handleOptionClick = (option) => {
-    console.log(`Option Clicked: ${option}, Current Score: ${score}`); // Debug log
-
     if (!selectedOption) {
       setSelectedOption(option);
       setShowAnswer(true);
       if (Questions[currentQuestion].answer === option) {
-        console.log("Correct answer selected!");
-        setScore((prevScore) => {
-          console.log(`Updating score from ${prevScore} to ${prevScore + 1}`);
-          return prevScore + 1;
-        });
+        setScore((prevScore) => prevScore + 1);
       }
     }
   };
 
   const nextQuestion = () => {
-    console.log("Proceeding to next question");
     setSelectedOption("");
     setShowAnswer(false);
 
@@ -59,57 +131,53 @@ function Quiz() {
   };
 
   return (
-    <div className="div-main">
-      <div className="container Quiz-container">
-        <h1 className="quiz-heading">{Questions[currentQuestion].prompt}</h1>
-        <div className="options">
-          {["optionA", "optionB", "optionC", "optionD"].map((option) => (
-            <button
-              key={option}
-              className={`button ${showAnswer
-                ? option === Questions[currentQuestion].answer
-                  ? "correct"
-                  : option === selectedOption
-                    ? "wrong"
-                    : ""
-                : ""
-                }`}
-              onClick={() => handleOptionClick(option)}
-              disabled={showAnswer}
-            >
-              {Questions[currentQuestion][option]}
-            </button>
-          ))}
-        </div>
-        {showAnswer && (
-          <button className="button" onClick={nextQuestion}>
-            {currentQuestion === Questions.length - 1 ? "Finish Quiz" : "Next Question"}
+    <div className="container Quiz-container">
+      <h1 className="quiz-heading">{Questions[currentQuestion].prompt}</h1>
+      <div className="options">
+        {["optionA", "optionB", "optionC", "optionD"].map((option) => (
+          <button
+            key={option}
+            className={`button ${showAnswer
+              ? option === Questions[currentQuestion].answer
+                ? "correct"
+                : option === selectedOption
+                  ? "wrong"
+                  : ""
+              : ""
+              }`}
+            onClick={() => handleOptionClick(option)}
+            disabled={showAnswer}
+          >
+            {Questions[currentQuestion][option]}
           </button>
-        )}
+        ))}
       </div>
+      {showAnswer && (
+        <button className="button" onClick={nextQuestion}>
+          {currentQuestion === Questions.length - 1 ? "Finish Quiz" : "Next Question"}
+        </button>
+      )}
     </div>
   );
 }
 
 function EndScreen() {
-  const { score, setScore, setGameState } = useContext(GameStateContext); // Include `score` in the destructured context
+  const { score, setScore, setGameState } = useContext(GameStateContext);
 
   const restartQuiz = () => {
-    setScore(0); // Reset score
-    setGameState("playing"); // Reset game state
+    setScore(0);
+    setGameState("start");
   };
 
   return (
     <div className="container Quiz-Container2">
       <h1>Quiz Finished</h1>
-      <h2>Your Score: {score} / 3</h2> {/* Correctly accessing `score` */}
+      <h2>Your Score: {score} / 3</h2>
       <button className="button" onClick={restartQuiz}>
         Restart Quiz
       </button>
     </div>
   );
 }
-
-
 
 export default QuizApp;
