@@ -45,7 +45,7 @@ export default function CompanyDashboard() {
       <div>
         {
           !user?.verfied &&
-          <ProfileComplete percentageLeft={user?.verfied} />
+          <ProfileComplete percentageLeft={user?.verfied ? 100 : 0} />
         }
         <JobListingCarousel />
       </div>
