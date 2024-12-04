@@ -174,7 +174,6 @@ const Video = ({ roomId, userId, role, setIsRoom }) => {
             <video
               id="candidateVideo"
               ref={videoRef}
-              muted={isMuted}
               autoPlay
             ></video>
             <div className="participant-name">
@@ -187,7 +186,6 @@ const Video = ({ roomId, userId, role, setIsRoom }) => {
           <div className="participant">
             <video id="employerVideo"
               ref={remoteVideoRef}
-              muted={isMuted}
               autoPlay
             ></video>
             <div className="participant-name">
