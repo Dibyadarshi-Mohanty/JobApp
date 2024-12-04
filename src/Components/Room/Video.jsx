@@ -38,7 +38,13 @@ const Video = ({ roomId, userId, role, setIsRoom }) => {
   }, [roomId, userId, role]);
   useEffect(() => {
     if (!isRoomReady) return;
-    const pc = new RTCPeerConnection();
+    const pc = new RTCPeerConnection({
+      iceServers: [
+        {
+          urls: "stun:stun.stunprotocol.org",
+        }
+      ],
+    });
     setPeerConnection(pc);
     navigator.mediaDevices
       .getUserMedia({ video: true, audio: true })
