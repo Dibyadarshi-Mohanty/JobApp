@@ -148,7 +148,7 @@ const Video = ({ roomId, userId, role, setIsRoom }) => {
     setStream(null);
     setIsRoomReady(false);
     setIsRoom(false);
-    setIsCameraOn(true);
+    setIsCameraOn(false);
     setIsSharingScreen(false);
     toast.success("Thanks for using our service!");
     navigate("/");
@@ -198,12 +198,12 @@ const Video = ({ roomId, userId, role, setIsRoom }) => {
       <div className="control-bar d-flex justify-content-center align-items-center">
         <button
           id="muteBtn"
-          className={`btn ${isMuted ? "btn-danger" : "btn-secondary"} me-3`}
-          title={isMuted ? "Unmute" : "Mute"}
+          className={`btn ${!isMuted ? "btn-danger" : "btn-secondary"} me-3`}
+          title={!isMuted ? "Unmute" : "Mute"}
           onClick={handleMuteToggle}
         >
-          <i className={`fa ${isMuted ? "fa-microphone-slash" : "fa-microphone"}`}></i>{" "}
-          {isMuted ? "Unmute" : "Mute"}
+          <i className={`fa ${!isMuted ? "fa-microphone-slash" : "fa-microphone"}`}></i>{" "}
+          {!isMuted ? "Unmute" : "Mute"}
         </button>
         <button
           id="cameraBtn"
