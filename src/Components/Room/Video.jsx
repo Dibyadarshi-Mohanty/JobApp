@@ -40,10 +40,8 @@ const Video = ({ roomId, userId, role, setIsRoom }) => {
     if (!isRoomReady) return;
     const pc = new RTCPeerConnection({
       iceServers: [
-        {
-          urls: "stun:stun.stunprotocol.org",
-        }
-      ],
+        { urls: "stun:stun.l.google.com:19302" }
+      ]
     });
     setPeerConnection(pc);
     navigator.mediaDevices
