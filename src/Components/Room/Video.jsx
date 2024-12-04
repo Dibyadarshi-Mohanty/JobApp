@@ -197,44 +197,44 @@ const Video = ({ roomId, userId, role, setIsRoom }) => {
             </div>
           </div>
         </div>
-      </div>
-      {/* Control Bar */}
-      <div className="control-bar d-flex justify-content-center align-items-center">
-        <button
-          id="muteBtn"
-          className={`btn ${!isMuted ? "btn-danger" : "btn-secondary"} me-3`}
-          title={!isMuted ? "Unmute" : "Mute"}
-          onClick={handleMuteToggle}
-        >
-          <i className={`fa ${!isMuted ? "fa-microphone-slash" : "fa-microphone"}`}></i>{" "}
-          {!isMuted ? "Unmute" : "Mute"}
-        </button>
-        <button
-          id="cameraBtn"
-          className={`btn ${isCameraOn ? "btn-secondary" : "btn-danger"} me-3`}
-          title={isCameraOn ? "Turn Off Camera" : "Turn On Camera"}
-          onClick={toggleCamera}
-        >
-          <i className={`fa ${isCameraOn ? "fa-video" : "fa-video-slash"}`}></i>{" "}
-          {isCameraOn ? "Turn Off Camera" : "Turn On Camera"}
-        </button>
-        <button
-          id="shareBtn"
-          className={`btn ${isSharingScreen ? "btn-secondary" : "btn-success"} me-3`}
-          title={isSharingScreen ? "Stop Sharing Screen" : "Share Screen"}
-          onClick={startScreenShare}
-        >
-          <i className={`fa ${isSharingScreen ? "fa-xmark" : "fa-desktop"}`}></i>{" "}
-          {isSharingScreen ? "Stop Sharing" : "Share Screen"}
-        </button>
-        <button
-          id="leaveBtn"
-          className="btn btn-danger"
-          title="Leave Meeting"
-          onClick={disconnectCall}
-        >
-          <i className="fa fa-sign-out"></i> Leave
-        </button>
+        {/* Control Bar */}
+        <div className="control-bar d-flex justify-content-center align-items-center">
+          <button
+            id="muteBtn"
+            className={`btn ${!isMuted ? "btn-danger" : "btn-secondary"} me-3`}
+            title={!isMuted ? "Unmute" : "Mute"}
+            onClick={handleMuteToggle}
+          >
+            <i className={`fa ${!isMuted ? "fa-microphone-slash" : "fa-microphone"}`}></i>{" "}
+            {isMuted ? "Unmute" : "Mute"}
+          </button>
+          <button
+            id="cameraBtn"
+            className={`btn ${isCameraOn ? "btn-secondary" : "btn-danger"} me-3`}
+            title={isCameraOn ? "Turn Off Camera" : "Turn On Camera"}
+            onClick={toggleCamera}
+          >
+            <i className={`fa ${isCameraOn ? "fa-video" : "fa-video-slash"}`}></i>{" "}
+            {isCameraOn ? "Turn Off Camera" : "Turn On Camera"}
+          </button>
+          <button
+            id="shareBtn"
+            className={`btn ${isSharingScreen ? "btn-secondary" : "btn-success"} me-3`}
+            title={isSharingScreen ? "Stop Sharing Screen" : "Share Screen"}
+            onClick={startScreenShare}
+          >
+            <i className={`fa ${isSharingScreen ? "fa-xmark" : "fa-desktop"}`}></i>{" "}
+            {isSharingScreen ? "Stop Sharing" : "Share Screen"}
+          </button>
+          <button
+            id="leaveBtn"
+            className="btn btn-danger"
+            title="Leave Meeting"
+            onClick={disconnectCall}
+          >
+            <i className="fa fa-sign-out"></i> Leave
+          </button>
+        </div>
       </div>
     </div>
   );

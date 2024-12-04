@@ -94,6 +94,7 @@ function App() {
       </div>
     )
   }
+  const currentPath = window.location.pathname;
 
   return (
     <>
@@ -219,7 +220,10 @@ function App() {
           }
         />
       </Routes>
-      <Footer />
+      {
+        currentPath !== "/room" &&
+        <Footer />
+      }
       <Toaster />
     </>
   );
