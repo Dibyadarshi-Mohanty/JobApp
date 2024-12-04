@@ -17,6 +17,7 @@ const VideoCall = ({ roomId, userId, role, setIsRoom }) => {
     const [isCameraOn, setIsCameraOn] = useState(true);
     const [isSharingScreen, setIsSharingScreen] = useState(false);
 
+
     const videoRef = useRef(null);
     const remoteVideoRef = useRef(null);
     const socket = useRef(null);

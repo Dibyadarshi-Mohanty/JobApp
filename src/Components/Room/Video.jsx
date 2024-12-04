@@ -5,60 +5,47 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { BACKEND_URL } from "../../redux/store";
 import "./Video.css"
-
 const Video = ({ roomId, userId, role, setIsRoom }) => {
   const navigate = useNavigate();
-
   const [isRoomReady, setIsRoomReady] = useState(false);
+  const [isMuted, setIsMuted] = useState(false);
   const [isError, setIsError] = useState(null);
   const [isWaiting, setIsWaiting] = useState(false);
   const [peerConnection, setPeerConnection] = useState(null);
   const [stream, setStream] = useState(null);
   const [isCameraOn, setIsCameraOn] = useState(true);
   const [isSharingScreen, setIsSharingScreen] = useState(false);
-
   const videoRef = useRef(null);
   const remoteVideoRef = useRef(null);
   const socket = useRef(null);
-
   useEffect(() => {
     socket.current = io(`${BACKEND_URL}`);
-
     socket.current.emit("joinRoom", { roomId, userId, role });
-
     socket.current.on("roomReady", () => {
       setIsRoomReady(true);
       setIsRoom(true);
       setIsWaiting(false);
     });
-
     socket.current.on("waitingForOther", () => {
       setIsWaiting(true);
     });
-
     socket.current.on("error", (data) => {
       setIsError(data.message);
     });
-
     return () => {
       socket.current.disconnect();
     };
   }, [roomId, userId, role]);
-
   useEffect(() => {
     if (!isRoomReady) return;
-
     const pc = new RTCPeerConnection();
     setPeerConnection(pc);
-
     navigator.mediaDevices
       .getUserMedia({ video: true, audio: true })
       .then((userStream) => {
         setStream(userStream);
         if (videoRef.current) videoRef.current.srcObject = userStream;
-
         userStream.getTracks().forEach((track) => pc.addTrack(track, userStream));
-
         pc.onicecandidate = (event) => {
           if (event.candidate) {
             socket.current.emit("signal", roomId, {
@@ -67,13 +54,11 @@ const Video = ({ roomId, userId, role, setIsRoom }) => {
             });
           }
         };
-
         pc.ontrack = (event) => {
           if (remoteVideoRef.current) {
             remoteVideoRef.current.srcObject = event.streams[0];
           }
         };
-
         if (role === "interviewer") {
           pc.createOffer()
             .then((offer) => pc.setLocalDescription(offer))
@@ -83,13 +68,10 @@ const Video = ({ roomId, userId, role, setIsRoom }) => {
         }
       })
       .catch(() => setIsError("Error accessing camera/microphone."));
-
     return () => pc.close();
   }, [isRoomReady, roomId, role]);
-
   useEffect(() => {
     if (!peerConnection) return;
-
     socket.current.on("signal", (message) => {
       if (message.type === "offer") {
         peerConnection
@@ -110,10 +92,8 @@ const Video = ({ roomId, userId, role, setIsRoom }) => {
           .catch((error) => console.error("Error adding ICE candidate:", error));
       }
     });
-
     return () => socket.current.off("signal");
   }, [peerConnection, roomId]);
-
   const toggleCamera = () => {
     if (stream) {
       const enabled = !isCameraOn;
@@ -121,13 +101,11 @@ const Video = ({ roomId, userId, role, setIsRoom }) => {
       setIsCameraOn(enabled);
     }
   };
-
   const startScreenShare = () => {
     if (!peerConnection) {
       setIsError("No active peer connection.");
       return;
     }
-
     if (!isSharingScreen) {
       navigator.mediaDevices
         .getDisplayMedia({ video: true })
@@ -135,16 +113,13 @@ const Video = ({ roomId, userId, role, setIsRoom }) => {
           const videoSender = peerConnection
             .getSenders()
             .find((sender) => sender.track && sender.track.kind === "video");
-
           if (videoSender) {
             const screenTrack = screenStream.getVideoTracks()[0];
             videoSender.replaceTrack(screenTrack);
-
             screenTrack.onended = () => {
               videoSender.replaceTrack(stream.getVideoTracks()[0]);
               setIsSharingScreen(false);
             };
-
             setIsSharingScreen(true);
           }
         })
@@ -153,37 +128,40 @@ const Video = ({ roomId, userId, role, setIsRoom }) => {
       const videoSender = peerConnection
         .getSenders()
         .find((sender) => sender.track && sender.track.kind === "video");
-
       if (videoSender && stream) {
         videoSender.replaceTrack(stream.getVideoTracks()[0]);
         setIsSharingScreen(false);
       }
     }
   };
-
   const disconnectCall = () => {
     if (stream) {
       stream.getTracks().forEach((track) => track.stop());
     }
-
     if (peerConnection) {
       peerConnection.close();
       setPeerConnection(null);
     }
-
     if (socket.current) {
       socket.current.disconnect();
     }
-
     setStream(null);
     setIsRoomReady(false);
     setIsRoom(false);
     setIsCameraOn(true);
     setIsSharingScreen(false);
-
     toast.success("Thanks for using our service!");
     navigate("/");
   };
+
+  const handleMuteToggle = () => {
+    if (stream) {
+      const enabled = !isMuted;
+      stream.getAudioTracks()[0].enabled = enabled;
+      setIsMuted(enabled);
+    }
+  };
+
   return (
     <div className="container-fluid video-conference">
       {isError && <div className="error">{isError}</div>}
@@ -196,16 +174,12 @@ const Video = ({ roomId, userId, role, setIsRoom }) => {
             <video
               id="candidateVideo"
               ref={videoRef}
-              autoPlay
-            // muted={isMuted}
-            //   style={{ display: isCameraOn ? "block" : "none" }}
             ></video>
             <div className="participant-name">
               {role === "interviewer" ? "Interviewer (You)" : "Candidate (You)"}
             </div>
           </div>
         </div>
-
         {/* Employer Video */}
         <div className="col-6 video-window">
           <div className="participant">
@@ -219,10 +193,9 @@ const Video = ({ roomId, userId, role, setIsRoom }) => {
           </div>
         </div>
       </div>
-
       {/* Control Bar */}
       <div className="control-bar d-flex justify-content-center align-items-center">
-        {/* <button
+        <button
           id="muteBtn"
           className={`btn ${isMuted ? "btn-danger" : "btn-secondary"} me-3`}
           title={isMuted ? "Unmute" : "Mute"}
@@ -230,8 +203,7 @@ const Video = ({ roomId, userId, role, setIsRoom }) => {
         >
           <i className={`fa ${isMuted ? "fa-microphone-slash" : "fa-microphone"}`}></i>{" "}
           {isMuted ? "Unmute" : "Mute"}
-        </button> */}
-
+        </button>
         <button
           id="cameraBtn"
           className={`btn ${isCameraOn ? "btn-secondary" : "btn-danger"} me-3`}
@@ -241,7 +213,6 @@ const Video = ({ roomId, userId, role, setIsRoom }) => {
           <i className={`fa ${isCameraOn ? "fa-video" : "fa-video-slash"}`}></i>{" "}
           {isCameraOn ? "Turn Off Camera" : "Turn On Camera"}
         </button>
-
         <button
           id="shareBtn"
           className={`btn ${isSharingScreen ? "btn-secondary" : "btn-success"} me-3`}
@@ -251,7 +222,6 @@ const Video = ({ roomId, userId, role, setIsRoom }) => {
           <i className={`fa ${isSharingScreen ? "fa-xmark" : "fa-desktop"}`}></i>{" "}
           {isSharingScreen ? "Stop Sharing" : "Share Screen"}
         </button>
-
         <button
           id="leaveBtn"
           className="btn btn-danger"
@@ -264,9 +234,7 @@ const Video = ({ roomId, userId, role, setIsRoom }) => {
     </div>
   );
 };
-
 export default Video;
-
 Video.propTypes = {
   roomId: propTypes.string.isRequired,
   userId: propTypes.string.isRequired,
